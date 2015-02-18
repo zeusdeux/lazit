@@ -83,8 +83,7 @@ function* drop(n, a) {
 
 // splitAt :: Int -> [a] -> ([a], [a])
 function splitAt(i, a) {
-  var l = [],
-    r = [];
+  var l = [], r = [];
   for (let x of a) {
     if (i) {
       l.push(x);
@@ -117,8 +116,7 @@ function* dropWhile(p, a) {
 
 // span :: (a -> Bool) -> [a] -> ([a], [a])
 function span(p, a) {
-  var l = [],
-    r = [];
+  var l = [], r = [];
   var doneTaking = false;
   for (let x of a) {
     if (p(x) && !doneTaking) l.push(x);
@@ -134,8 +132,7 @@ function span(p, a) {
 // calling it spanInv which stands for spanInverse
 // since break is a reserved word
 function spanInv(p, a) {
-  var l = [],
-    r = [];
+  var l = [], r = [];
   var doneTaking = false;
   for (let x of a) {
     if (!p(x) && !doneTaking) l.push(x);
@@ -206,25 +203,84 @@ function* zipWith3(f, a, b, c) {
 
 // unzip :: [(a, b)] -> ([a], [b])
 function unzip(a) {
-  var l = [],
-    r = [],
-    skip = false;
+  var res = [[], []];
   for (let x of a) {
     for (let y of x) {
-      if (!skip) {
-        l.push(y);
-        skip = true;
-      }
-      else r.push(y);
+      let curr = res.shift();
+      curr.push(y);
+      res.push(curr);
     }
-    skip = false;
   }
-  return [l, r];
+  return res;
 }
 
 // unzip3 :: [(a, b, c)] -> ([a], [b], [c])
+function unzip3(a){
+  var res = [[], [], []];
+  for (let x of a) {
+    for (let y of x) {
+      let curr = res.shift();
+      curr.push(y);
+      res.push(curr);
+    }
+  }
+  return res;
+}
+
+// building lists
+
+// scans
+// scanl :: (b -> a -> b) -> b -> [a] -> [b]
+function* scanl(f, b, a){
+  for (let x of a) {
+    yield b;
+    b = f(b, x);
+  }
+  yield b;
+}
+
+// scanl1 :: (a -> a -> a) -> [a] -> [a]
+// scanl1 f [x1, x2, ...] == [x1, x1 `f` x2, ...]
+function* scanl1(f, a){
+  var prev = null;
+  for (let x of a){
+    if (null !== prev) x = f(prev, x);
+    yield x;
+    prev = x;
+  }
+}
+
+// scanr :: (a -> b -> b) -> b -> [a] -> [b]
+function* scanr(f, b, a){
+
+}
 
 
+// infinite lists
+// iterate :: (a -> a) -> a -> [a]
+function* iterate(f, a){
+  while(true) {
+    yield a;
+    a = f(a);
+  }
+}
+
+// repeat :: a -> [a]
+function* repeat(a){
+  while(true) yield a;
+}
+
+// replicate :: Int -> a -> [a]
+function* replicate(n, a){
+  while (n--) yield a;
+}
+
+// cycle :: [a] -> [a]
+function* cycle(a){
+  while(true){
+    for (let x of a) yield x;
+  }
+}
 
 module.exports = {
   map: cu(map),
@@ -244,5 +300,13 @@ module.exports = {
   zip: cu(zip),
   zip3: cu(zip3),
   zipWith: cu(zipWith),
-  zipWith3: cu(zipWith3)
+  zipWith3: cu(zipWith3),
+  unzip: unzip,
+  unzip3: unzip3,
+  scanl: cu(scanl),
+  scanl1: cu(scanl1),
+  iterate: cu(iterate),
+  repeat: repeat,
+  replicate: cu(replicate),
+  cycle: cycle
 };
