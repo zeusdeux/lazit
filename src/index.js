@@ -2,13 +2,6 @@
 
 var cu = require('auto-curry');
 
-// make Numbers iterable
-// so that we can do stuff like [...4] and get [0,1,2,3]
-// Number.prototype[Symbol.iterator] = function*() {
-//   var i = 0,
-//     val = this.valueOf();
-//   while (i < val) yield i++;
-// };
 
 // map :: (a -> b) -> [a] -> [b]
 function* map(f, a) {
@@ -89,17 +82,21 @@ function* drop(n, a) {
 }
 
 // splitAt :: Int -> [a] -> ([a], [a])
-function splitAt(i, a){
-  var l = [], r = [];
-  for (let x of a){
-    if (i) l.push(x), i--;
+function splitAt(i, a) {
+  var l = [],
+    r = [];
+  for (let x of a) {
+    if (i) {
+      l.push(x);
+      i--;
+    }
     else r.push(x);
   }
   return [l, r];
 }
 
 // takeWhile :: (a -> Bool) -> [a] -> [a]
-function* takeWhile(p, a){
+function* takeWhile(p, a) {
   for (let x of a) {
     if (p(x)) yield x;
     else break;
@@ -107,9 +104,9 @@ function* takeWhile(p, a){
 }
 
 // dropWhile :: (a -> Bool) -> [a] -> [a]
-function* dropWhile(p, a){
+function* dropWhile(p, a) {
   var doneDropping = false;
-  for (let x of a){
+  for (let x of a) {
     if (p(x) && !doneDropping) continue;
     else {
       doneDropping = true;
@@ -119,10 +116,11 @@ function* dropWhile(p, a){
 }
 
 // span :: (a -> Bool) -> [a] -> ([a], [a])
-function span(p, a){
-  var l = [], r = [];
+function span(p, a) {
+  var l = [],
+    r = [];
   var doneTaking = false;
-  for (let x of a){
+  for (let x of a) {
     if (p(x) && !doneTaking) l.push(x);
     else {
       doneTaking = true;
@@ -135,10 +133,11 @@ function span(p, a){
 // break :: (a -> Bool) -> [a] -> ([a], [a])
 // calling it spanInv which stands for spanInverse
 // since break is a reserved word
-function spanInv(p, a){
-  var l = [], r = [];
+function spanInv(p, a) {
+  var l = [],
+    r = [];
   var doneTaking = false;
-  for (let x of a){
+  for (let x of a) {
     if (!p(x) && !doneTaking) l.push(x);
     else {
       doneTaking = true;
@@ -151,22 +150,83 @@ function spanInv(p, a){
 // zips
 
 // zip :: [a] -> [b] -> [[a,b]]
+// not lazy on its arguments as of now
 function* zip(a, b) {
-  for (x of a) {
+  var i = 0;
+  // eagerly expanding the iterators given to it
+  // still have to figure out how I can do this lazily
+  // can I delegate to an iterator? like yield* for generators?
+  // *assumes the thinker pose*
+  a = [...a];
+  b = [...b];
+  while (i < a.length && i < b.length) {
+    yield [a[i], b[i]];
+    i++;
+  }
+}
 
+// zip3 :: [a] -> [b] -> [c] -> [(a, b, c)]
+function* zip3(a, b, c) {
+  var i = 0;
+  // eagerly expanding the iterators given to it
+  // still have to figure out how I can do this lazily
+  // can I delegate to an iterator? like yield* for generators?
+  // *assumes the thinker pose*
+  a = [...a];
+  b = [...b];
+  c = [...c];
+  while (i < a.length && i < b.length && i < c.length) {
+    yield [a[i], b[i], c[i]];
+    i++;
   }
 }
 
 // zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
 function* zipWith(f, a, b) {
   var i = 0;
-  while (i < a.length && i < b.length) yield f(a[i], b[i]), i++;
+  a = [...a];
+  b = [...b];
+  while (i < a.length && i < b.length) {
+    yield f(a[i], b[i]);
+    i++;
+  }
 }
+
+// zipWith3 :: (a -> b -> c -> d) -> [a] -> [b] -> [c] -> [d]
+function* zipWith3(f, a, b, c) {
+  var i = 0;
+  a = [...a];
+  b = [...b];
+  c = [...c];
+  while (i < a.length && i < b.length && i < c.length) {
+    yield f(a[i], b[i], c[i]);
+    i++;
+  }
+}
+
+// unzip :: [(a, b)] -> ([a], [b])
+function unzip(a) {
+  var l = [],
+    r = [],
+    skip = false;
+  for (let x of a) {
+    for (let y of x) {
+      if (!skip) {
+        l.push(y);
+        skip = true;
+      }
+      else r.push(y);
+    }
+    skip = false;
+  }
+  return [l, r];
+}
+
+// unzip3 :: [(a, b, c)] -> ([a], [b], [c])
+
 
 
 module.exports = {
-  zip: cu(zip),
-  zipWith: cu(zipWith),
   map: cu(map),
   filter: cu(filter),
   head: head,
@@ -180,5 +240,9 @@ module.exports = {
   takeWhile: cu(takeWhile),
   dropWhile: cu(dropWhile),
   span: cu(span),
-  spanInv: cu(spanInv)
+  spanInv: cu(spanInv),
+  zip: cu(zip),
+  zip3: cu(zip3),
+  zipWith: cu(zipWith),
+  zipWith3: cu(zipWith3)
 };
