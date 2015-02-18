@@ -1,0 +1,31 @@
+{
+  "name": "list-operations",
+  "version": "1.0.0",
+  "description": "ES6 comprehensions compatible list operations",
+  "main": "src/index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "keywords": [
+    "list",
+    "comprehensions",
+    "generators",
+    "iterators",
+    "lazy",
+    "functional",
+    "programming",
+    "prelude"
+  ],
+  "author": "Mudit Ameta",
+  "license": "MIT",
+  "dependencies": {
+    "auto-curry": "^0.2.0"
+  },
+  "devDependencies": {
+    "babel": "^4.3.0",
+    "browserify": "^8.1.3"
+  }
+}
