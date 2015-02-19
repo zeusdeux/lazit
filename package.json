@@ -1,7 +1,7 @@
 {
   "name": "lazit",
   "version": "1.0.0",
-  "description": "ES6 comprehensions compatible list operations",
+  "description": "Lazy composable operations on iterators/generators.",
   "main": "src/index.js",
   "directories": {
     "test": "test"
