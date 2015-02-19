@@ -4199,6 +4199,15 @@ if (module && module.exports)
 },{"buffer":7}],12:[function(require,module,exports){
 "use strict";
 
+// separate into 2 files cuz https://github.com/babel/babel/issues/832
+
+require("babelify/polyfill");
+
+module.exports = require("./");
+
+},{"./":13,"babelify/polyfill":6}],13:[function(require,module,exports){
+"use strict";
+
 var _toConsumableArray = function (arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } };
 
 var map = regeneratorRuntime.mark(
@@ -4891,8 +4900,6 @@ function cycle(a) {
 
 /* jshint esnext:true */
 
-require("babelify/polyfill");
-
 var cu = require("auto-curry");
 var clone = require("clone");
 
@@ -5055,5 +5062,5 @@ module.exports = {
 // Saving your life here, man.
 // See the comment in repeat
 
-},{"auto-curry":1,"babelify/polyfill":6,"clone":11}]},{},[12])(12)
+},{"auto-curry":1,"clone":11}]},{},[12])(12)
 });
