@@ -1,7 +1,5 @@
 /* jshint esnext:true */
 
-require('babelify/polyfill');
-
 var cu = require('auto-curry');
 var clone = require('clone');
 
