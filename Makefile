@@ -7,11 +7,11 @@ NODEMOD    = ./node_modules
 
 # files
 MAIN       = $(SRC)/index.js
-MAPFILE    = list-operations.min.map
+MAPFILE    = lazit.min.map
 
-all: jshint test $(BUILD)/list-operations.min.js
+all: jshint test $(BUILD)/lazit.min.js
 
-force: $(BUILD)/list-operations.min.js
+force: $(BUILD)/lazit.min.js
 
 jshint:
 	$(BIN)/jshint $(SRC)/*.js
@@ -19,7 +19,7 @@ jshint:
 test:
 	$(BIN)/mocha -r should -u bdd -b $(TEST)/*
 
-$(BUILD)/list-operations.min.js: $(BUILD)/list-operations.js
+$(BUILD)/lazit.min.js: $(BUILD)/lazit.js
 	$(BIN)/uglifyjs $^ \
   -o $@ \
   -c -m \
@@ -29,8 +29,8 @@ $(BUILD)/list-operations.min.js: $(BUILD)/list-operations.js
   --comments \
   --stats
 
-$(BUILD)/list-operations.js: $(SRC)/* $(NODEMOD)/auto-curry/index.js
-	$(BIN)/browserify -s listOperations -t babelify -e $(MAIN) -o $@
+$(BUILD)/lazit.js: $(SRC)/* $(NODEMOD)/auto-curry/index.js
+	$(BIN)/browserify -s lazit -e $(MAIN) -o $@ -t [babelify --experimental]
 
 clean:
 	rm -f $(BUILD)/*
