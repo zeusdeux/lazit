@@ -1,7 +1,13 @@
 /* jshint esnext:true */
 
-var cu = require('auto-curry');
+require('babelify/polyfill');
 
+var cu = require('auto-curry');
+var clone = require('clone');
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
 
 // map :: (a -> b) -> [a] -> [b]
 function* map(f, a) {
@@ -146,59 +152,103 @@ function spanInv(p, a) {
 
 // zips
 
+// zipN :: [a] -> [b] .... -> [n] -> [[a..n]]
+// zips n lists together
+function* zipN(...args) {
+  var iterators = args.map(v => v[Symbol.iterator]());
+  var itObjs = iterators.map(v => v.next());
+
+  while (itObjs.filter(v => !v.done).length === itObjs.length) {
+    yield itObjs.map(v => v.value);
+    itObjs = iterators.map(v => v.next());
+  }
+}
+
+// zipWithN :: (a -> b -> .... -> n -> x) -> [a] -> [b] -> .... -> [n] -> [x]
+// applies a function to a each element in a zip of n lists and returns new list
+function* zipWithN(f, ...args){
+  var iterators = args.map(v => v[Symbol.iterator]());
+  var itObjs = iterators.map(v => v.next());
+
+  while (itObjs.filter(v => !v.done).length === itObjs.length) {
+    let temp = itObjs.map(v => v.value);
+    yield f.apply(null, temp);
+    itObjs = iterators.map(v => v.next());
+  }
+}
+
+// specialized zips below
+
 // zip :: [a] -> [b] -> [[a,b]]
 // not lazy on its arguments as of now
 function* zip(a, b) {
-  var i = 0;
-  // eagerly expanding the iterators given to it
-  // still have to figure out how I can do this lazily
-  // can I delegate to an iterator? like yield* for generators?
-  // *assumes the thinker pose*
-  a = [...a];
-  b = [...b];
-  while (i < a.length && i < b.length) {
-    yield [a[i], b[i]];
-    i++;
+  var aIterator = a[Symbol.iterator]();
+  var bIterator = b[Symbol.iterator]();
+  var aObj = aIterator.next();
+  var bObj = bIterator.next();
+  while (!aObj.done && !bObj.done) {
+    yield [aObj.value, bObj.value];
+    aObj = aIterator.next();
+    bObj = bIterator.next();
   }
 }
 
 // zip3 :: [a] -> [b] -> [c] -> [(a, b, c)]
 function* zip3(a, b, c) {
-  var i = 0;
-  // eagerly expanding the iterators given to it
-  // still have to figure out how I can do this lazily
-  // can I delegate to an iterator? like yield* for generators?
-  // *assumes the thinker pose*
-  a = [...a];
-  b = [...b];
-  c = [...c];
-  while (i < a.length && i < b.length && i < c.length) {
-    yield [a[i], b[i], c[i]];
-    i++;
+  var aIterator = a[Symbol.iterator]();
+  var bIterator = b[Symbol.iterator]();
+  var cIterator = c[Symbol.iterator]();
+  var aObj = aIterator.next();
+  var bObj = bIterator.next();
+  var cObj = cIterator.next();
+  while (!aObj.done && !bObj.done && !cObj.done) {
+    yield [aObj.value, bObj.value, cObj.value];
+    aObj = aIterator.next();
+    bObj = bIterator.next();
+    cObj = cIterator.next();
   }
 }
 
 // zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
 function* zipWith(f, a, b) {
-  var i = 0;
-  a = [...a];
-  b = [...b];
-  while (i < a.length && i < b.length) {
-    yield f(a[i], b[i]);
-    i++;
+  var aIterator = a[Symbol.iterator]();
+  var bIterator = b[Symbol.iterator]();
+  var aObj = aIterator.next();
+  var bObj = bIterator.next();
+  while (!aObj.done && !bObj.done) {
+    yield f(aObj.value, bObj.value);
+    aObj = aIterator.next();
+    bObj = bIterator.next();
   }
 }
 
 // zipWith3 :: (a -> b -> c -> d) -> [a] -> [b] -> [c] -> [d]
 function* zipWith3(f, a, b, c) {
-  var i = 0;
-  a = [...a];
-  b = [...b];
-  c = [...c];
-  while (i < a.length && i < b.length && i < c.length) {
-    yield f(a[i], b[i], c[i]);
-    i++;
+  var aIterator = a[Symbol.iterator]();
+  var bIterator = b[Symbol.iterator]();
+  var cIterator = c[Symbol.iterator]();
+  var aObj = aIterator.next();
+  var bObj = bIterator.next();
+  var cObj = cIterator.next();
+  while (!aObj.done && !bObj.done && !cObj.done) {
+    yield f(aObj.value, bObj.value, cObj.value);
+    aObj = aIterator.next();
+    bObj = bIterator.next();
+    cObj = cIterator.next();
   }
+}
+
+// unzipN :: [(a, b, .... , n)] -> ([a], [b], ...., [n])
+function unzipN(a){
+  var res = [...replicate(a.length, [])];
+  for (let x of a) {
+    for (let y of x) {
+      let curr = res.shift();
+      curr.push(y);
+      res.push(curr);
+    }
+  }
+  return res;
 }
 
 // unzip :: [(a, b)] -> ([a], [b])
@@ -251,34 +301,45 @@ function* scanl1(f, a){
 }
 
 // scanr :: (a -> b -> b) -> b -> [a] -> [b]
-function* scanr(f, b, a){
+// function* scanr(f, b, a){
 
-}
+// }
 
 
 // infinite lists
 // iterate :: (a -> a) -> a -> [a]
 function* iterate(f, a){
   while(true) {
-    yield a;
+    // See the comment in repeat
+    if (!isObject(a)) yield a; else yield clone(a);
     a = f(a);
   }
 }
 
 // repeat :: a -> [a]
 function* repeat(a){
-  while(true) yield a;
+  // cloning since objects are basically pointers in js.
+  // If I just `yield a` then all the elements in the resulting
+  // list will contain reference to the same object and all hell
+  // will break loose, it'll rain cows and horses, ketchup will
+  // replace water and all the liquour in the world will disappear.
+  // Saving your life here, man.
+  while(true) if (!isObject(a)) yield a; else yield clone(a);
 }
 
 // replicate :: Int -> a -> [a]
-function* replicate(n, a){
-  while (n--) yield a;
+function replicate(n, a){
+  var res = [];
+  // See the comment in repeat
+  while (n--) if (!isObject(a)) res.push(a); else res.push(clone(a));
+  return res;
 }
 
 // cycle :: [a] -> [a]
 function* cycle(a){
   while(true){
-    for (let x of a) yield x;
+    // See the comment in repeat
+    for (let x of a) if (!isObject(x)) yield x; else yield clone(x);
   }
 }
 
@@ -301,6 +362,8 @@ module.exports = {
   zip3: cu(zip3),
   zipWith: cu(zipWith),
   zipWith3: cu(zipWith3),
+  zipN: cu(zipN),
+  zipWithN: cu(zipWithN),
   unzip: unzip,
   unzip3: unzip3,
   scanl: cu(scanl),
