@@ -7,6 +7,7 @@ NODEMOD    = ./node_modules
 
 # files
 MAIN       = $(SRC)/index.js
+BROWSER		 = $(SRC)/browser.js
 MAPFILE    = lazit.min.map
 
 all: jshint test $(BUILD)/lazit.min.js
@@ -30,7 +31,7 @@ $(BUILD)/lazit.min.js: $(BUILD)/lazit.js
   --stats
 
 $(BUILD)/lazit.js: $(SRC)/* $(NODEMOD)/auto-curry/index.js
-	$(BIN)/browserify -s lazit -e $(MAIN) -o $@ -t [babelify --experimental]
+	$(BIN)/browserify -s lazit -e $(BROWSER) -o $@ -t babelify
 
 clean:
 	rm -f $(BUILD)/*
