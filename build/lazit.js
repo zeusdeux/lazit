@@ -4237,6 +4237,48 @@ function map(f, a) {
   }, map, this);
 });
 
+var concat = regeneratorRuntime.mark(
+
+// concat :: [a] -> [a] -> [a]
+// Append two lists
+// If the first list is not finite, the result is the first list.
+function concat(a, b) {
+  var _iterator, _step, x, _iterator2, _step2;
+  return regeneratorRuntime.wrap(function concat$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        _iterator = a[Symbol.iterator]();
+      case 1:
+        if ((_step = _iterator.next()).done) {
+          context$1$0.next = 7;
+          break;
+        }
+        x = _step.value;
+        context$1$0.next = 5;
+        return x;
+      case 5:
+        context$1$0.next = 1;
+        break;
+      case 7:
+        _iterator2 = b[Symbol.iterator]();
+      case 8:
+        if ((_step2 = _iterator2.next()).done) {
+          context$1$0.next = 14;
+          break;
+        }
+        x = _step2.value;
+        context$1$0.next = 12;
+        return x;
+      case 12:
+        context$1$0.next = 8;
+        break;
+      case 14:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, concat, this);
+});
+
 var filter = regeneratorRuntime.mark(
 
 // filter :: (a -> Bool) -> [a] -> [a]
@@ -4276,7 +4318,7 @@ function tail(a) {
   return regeneratorRuntime.wrap(function tail$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
-        if (a.length) {
+        if (!a[Symbol.iterator]().next().done) {
           context$1$0.next = 2;
           break;
         }
@@ -4294,60 +4336,236 @@ var init = regeneratorRuntime.mark(
 
 // init :: [a] -> [a]
 // [a] should be non-empty
-// [a] should be finite (diverges from how it is in haskell)
-// an infinite [a] is currently impossible to get the init of since
-// I can never know when the generator/array is gonna end until it ends
 function init(a) {
+  var _getIteratorAndObj, xsIt, itObj;
   return regeneratorRuntime.wrap(function init$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
-        if (a.length) {
+        if (!a[Symbol.iterator]().next().done) {
           context$1$0.next = 2;
           break;
         }
         throw new Error("Cannot get init of empty list");
       case 2:
-        if (!Array.isArray(a)) a = [].concat(_toConsumableArray(a));
-        return context$1$0.delegateYield(take(a.length - 1, a), "t1", 4);
-      case 4:
+        _getIteratorAndObj = getIteratorAndObj(a);
+        xsIt = _getIteratorAndObj.xsIt;
+        itObj = _getIteratorAndObj.itObj;
+        xsIt.next();
+      case 6:
+        if (itObj.done) {
+          context$1$0.next = 11;
+          break;
+        }
+        context$1$0.next = 9;
+        return xsIt.next().value;
+      case 9:
+        context$1$0.next = 6;
+        break;
+      case 11:
       case "end":
         return context$1$0.stop();
     }
   }, init, this);
 });
 
-var reverse = regeneratorRuntime.mark(
+var scanl = regeneratorRuntime.mark(
 
-// null :: [a] -> Bool
-// not needed since you can test array.length
+// building lists
 
-// length :: [a] -> Int
-// not needed since we have array.length
-
-// reverse :: [a] -> [a]
-// [a] should be finite
-function reverse(a) {
-  var i;
-  return regeneratorRuntime.wrap(function reverse$(context$1$0) {
+// scans
+// scanl :: (b -> a -> b) -> b -> [a] -> [b]
+function scanl(f, acc, xs) {
+  var _iterator, _step, x;
+  return regeneratorRuntime.wrap(function scanl$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
-        if (!Array.isArray(a)) a = [].concat(_toConsumableArray(a));
-        i = a.length;
-      case 2:
-        if (!(i > 0)) {
-          context$1$0.next = 7;
+        _iterator = xs[Symbol.iterator]();
+      case 1:
+        if ((_step = _iterator.next()).done) {
+          context$1$0.next = 8;
           break;
         }
+        x = _step.value;
         context$1$0.next = 5;
-        return a[--i];
+        return acc;
       case 5:
-        context$1$0.next = 2;
+        acc = f(acc, x);
+      case 6:
+        context$1$0.next = 1;
         break;
-      case 7:
+      case 8:
+        context$1$0.next = 10;
+        return acc;
+      case 10:
       case "end":
         return context$1$0.stop();
     }
-  }, reverse, this);
+  }, scanl, this);
+});
+
+var scanl1 = regeneratorRuntime.mark(
+
+// scanl1 :: (a -> a -> a) -> [a] -> [a]
+// scanl1 f [x1, x2, ...] == [x1, x1 `f` x2, ...]
+function scanl1(f, xs) {
+  var prev, _iterator, _step, x;
+  return regeneratorRuntime.wrap(function scanl1$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        prev = null;
+        _iterator = xs[Symbol.iterator]();
+      case 2:
+        if ((_step = _iterator.next()).done) {
+          context$1$0.next = 10;
+          break;
+        }
+        x = _step.value;
+        if (null !== prev) x = f(prev, x);
+        context$1$0.next = 7;
+        return x;
+      case 7:
+        prev = x;
+      case 8:
+        context$1$0.next = 2;
+        break;
+      case 10:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, scanl1, this);
+});
+
+var iterate = regeneratorRuntime.mark(
+
+// fix this implementation ffs
+// scanr1 :: (a -> a -> a) -> [a] -> [a]
+// function scanr1(f, xs){
+//   var itObj = xs[Symbol.iterator]().next();
+//   if (itObj.done) return [];
+//   else return _scanr1(f, itObj.value, xs[Symbol.iterator]());
+
+//   function _scanr1(_f, _b, _aIt) {
+//     let _aObj = _aIt.next();
+//     if (_aObj.done) return _b;
+//     let ys = _scanr1(_f, _b, _aIt);
+//     if (Array.isArray(ys)) ys.unshift(_f(_aObj.value, ys[0]));
+//     else {
+//       let temp = [];
+//       temp.push(_f(_aObj.value, ys));
+//       ys = temp;
+//     }
+//     return ys;
+//   }
+// }
+
+// infinite lists
+// iterate :: (a -> a) -> a -> [a]
+function iterate(f, a) {
+  return regeneratorRuntime.wrap(function iterate$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        if (!true) {
+          context$1$0.next = 11;
+          break;
+        }
+        if (isObject(a)) {
+          context$1$0.next = 6;
+          break;
+        }
+        context$1$0.next = 4;
+        return a;
+      case 4:
+        context$1$0.next = 8;
+        break;
+      case 6:
+        context$1$0.next = 8;
+        return clone(a);
+      case 8:
+        a = f(a);
+        context$1$0.next = 0;
+        break;
+      case 11:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, iterate, this);
+});
+
+var repeat = regeneratorRuntime.mark(
+
+// repeat :: a -> [a]
+function repeat(a) {
+  return regeneratorRuntime.wrap(function repeat$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        if (!true) {
+          context$1$0.next = 10;
+          break;
+        }
+        if (isObject(a)) {
+          context$1$0.next = 6;
+          break;
+        }
+        context$1$0.next = 4;
+        return a;
+      case 4:
+        context$1$0.next = 8;
+        break;
+      case 6:
+        context$1$0.next = 8;
+        return clone(a);
+      case 8:
+        context$1$0.next = 0;
+        break;
+      case 10:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, repeat, this);
+});
+
+var cycle = regeneratorRuntime.mark(
+
+// cycle :: [a] -> [a]
+function cycle(a) {
+  var _iterator, _step, x;
+  return regeneratorRuntime.wrap(function cycle$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        if (!true) {
+          context$1$0.next = 15;
+          break;
+        }
+        _iterator = a[Symbol.iterator]();
+      case 2:
+        if ((_step = _iterator.next()).done) {
+          context$1$0.next = 13;
+          break;
+        }
+        x = _step.value;
+        if (isObject(x)) {
+          context$1$0.next = 9;
+          break;
+        }
+        context$1$0.next = 7;
+        return x;
+      case 7:
+        context$1$0.next = 11;
+        break;
+      case 9:
+        context$1$0.next = 11;
+        return clone(x);
+      case 11:
+        context$1$0.next = 2;
+        break;
+      case 13:
+        context$1$0.next = 0;
+        break;
+      case 15:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, cycle, this);
 });
 
 var take = regeneratorRuntime.mark(
@@ -4585,7 +4803,6 @@ var zip = regeneratorRuntime.mark(
 // specialized zips below
 
 // zip :: [a] -> [b] -> [[a,b]]
-// not lazy on its arguments as of now
 function zip(a, b) {
   var aIterator, bIterator, aObj, bObj;
   return regeneratorRuntime.wrap(function zip$(context$1$0) {
@@ -4713,203 +4930,27 @@ function zipWith3(f, a, b, c) {
   }, zipWith3, this);
 });
 
-var scanl = regeneratorRuntime.mark(
-
-// building lists
-
-// scans
-// scanl :: (b -> a -> b) -> b -> [a] -> [b]
-function scanl(f, b, a) {
-  var _iterator, _step, x;
-  return regeneratorRuntime.wrap(function scanl$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        _iterator = a[Symbol.iterator]();
-      case 1:
-        if ((_step = _iterator.next()).done) {
-          context$1$0.next = 8;
-          break;
-        }
-        x = _step.value;
-        context$1$0.next = 5;
-        return b;
-      case 5:
-        b = f(b, x);
-      case 6:
-        context$1$0.next = 1;
-        break;
-      case 8:
-        context$1$0.next = 10;
-        return b;
-      case 10:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, scanl, this);
-});
-
-var scanl1 = regeneratorRuntime.mark(
-
-// scanl1 :: (a -> a -> a) -> [a] -> [a]
-// scanl1 f [x1, x2, ...] == [x1, x1 `f` x2, ...]
-function scanl1(f, a) {
-  var prev, _iterator, _step, x;
-  return regeneratorRuntime.wrap(function scanl1$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        prev = null;
-        _iterator = a[Symbol.iterator]();
-      case 2:
-        if ((_step = _iterator.next()).done) {
-          context$1$0.next = 10;
-          break;
-        }
-        x = _step.value;
-        if (null !== prev) x = f(prev, x);
-        context$1$0.next = 7;
-        return x;
-      case 7:
-        prev = x;
-      case 8:
-        context$1$0.next = 2;
-        break;
-      case 10:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, scanl1, this);
-});
-
-var iterate = regeneratorRuntime.mark(
-
-// scanr :: (a -> b -> b) -> b -> [a] -> [b]
-// function* scanr(f, b, a){
-
-// }
-
-
-// infinite lists
-// iterate :: (a -> a) -> a -> [a]
-function iterate(f, a) {
-  return regeneratorRuntime.wrap(function iterate$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        if (!true) {
-          context$1$0.next = 11;
-          break;
-        }
-        if (isObject(a)) {
-          context$1$0.next = 6;
-          break;
-        }
-        context$1$0.next = 4;
-        return a;
-      case 4:
-        context$1$0.next = 8;
-        break;
-      case 6:
-        context$1$0.next = 8;
-        return clone(a);
-      case 8:
-        a = f(a);
-        context$1$0.next = 0;
-        break;
-      case 11:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, iterate, this);
-});
-
-var repeat = regeneratorRuntime.mark(
-
-// repeat :: a -> [a]
-function repeat(a) {
-  return regeneratorRuntime.wrap(function repeat$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        if (!true) {
-          context$1$0.next = 10;
-          break;
-        }
-        if (isObject(a)) {
-          context$1$0.next = 6;
-          break;
-        }
-        context$1$0.next = 4;
-        return a;
-      case 4:
-        context$1$0.next = 8;
-        break;
-      case 6:
-        context$1$0.next = 8;
-        return clone(a);
-      case 8:
-        context$1$0.next = 0;
-        break;
-      case 10:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, repeat, this);
-});
-
-var cycle = regeneratorRuntime.mark(
-
-// cycle :: [a] -> [a]
-function cycle(a) {
-  var _iterator, _step, x;
-  return regeneratorRuntime.wrap(function cycle$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        if (!true) {
-          context$1$0.next = 15;
-          break;
-        }
-        _iterator = a[Symbol.iterator]();
-      case 2:
-        if ((_step = _iterator.next()).done) {
-          context$1$0.next = 13;
-          break;
-        }
-        x = _step.value;
-        if (isObject(x)) {
-          context$1$0.next = 9;
-          break;
-        }
-        context$1$0.next = 7;
-        return x;
-      case 7:
-        context$1$0.next = 11;
-        break;
-      case 9:
-        context$1$0.next = 11;
-        return clone(x);
-      case 11:
-        context$1$0.next = 2;
-        break;
-      case 13:
-        context$1$0.next = 0;
-        break;
-      case 15:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, cycle, this);
-});
-
 /* jshint esnext:true */
 
-var cu = require("auto-curry");
 var clone = require("clone");
+var cu = require("auto-curry");
+var isObject = require("./util").isObject;
+var getIteratorAndObj = require("./util").getIteratorAndObj;
 
-function isObject(arg) {
-  return typeof arg === "object" && arg !== null;
+// flip :: (a -> b -> c) -> b -> a -> c
+function flip(f) {
+  return function () {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return f.call(null, args[1], args[0]);
+  };
 }
 
 // head :: [a] -> a
 function head(a) {
-  if (!a.length) throw new Error("Cannot get head of empty list");
+  if (a[Symbol.iterator]().next().done) throw new Error("Cannot get head of empty list");
   for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
     var x = _step.value;
     return x;
@@ -4919,9 +4960,122 @@ function head(a) {
 // last :: [a] -> a
 // [a] must be finite and non-empty
 function last(a) {
-  if (!a.length) throw new Error("Cannot get last of empty list");
+  if (a[Symbol.iterator]().next().done) throw new Error("Cannot get last of empty list");
   if (!Array.isArray(a)) a = [].concat(_toConsumableArray(a));
   return a[a.length - 1];
+}
+
+// null :: [a] -> Bool
+// not needed since you can test array.length
+
+// length :: [a] -> Int
+// not needed since we have array.length
+
+// reverse :: [a] -> [a]
+// [a] should be finite
+function reverse(a) {
+  var res = [];
+  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+    var x = _step.value;
+    res.unshift(x);
+  }return res;
+}
+
+// reducing lists
+// foldl :: (b -> a -> b) -> b -> [a] -> b
+// input list must be finite
+function foldl(f, acc, xs) {
+  var _getIteratorAndObj = getIteratorAndObj(xs);
+
+  var xsIt = _getIteratorAndObj.xsIt;
+  var itObj = _getIteratorAndObj.itObj;
+
+
+  // unrolling recursive foldl definition
+  // into a simple loop
+  // like a tail call optimizer would have done
+  while (!itObj.done) {
+    acc = f(acc, itObj.value);
+    itObj = xsIt.next();
+  }
+  return acc;
+}
+
+// foldl1 :: (a -> a -> a) -> [a] -> a
+function foldl1(f, xs) {
+  var _getIteratorAndObj = getIteratorAndObj(xs);
+
+  var xsIt = _getIteratorAndObj.xsIt;
+  var itObj = _getIteratorAndObj.itObj;
+  var acc = itObj.value;
+  var nextVal;
+
+  if (itObj.done) throw new Error("Cannot apply foldl1 to an empty list");
+
+  itObj = xsIt.next();
+  nextVal = itObj.value;
+
+  while (!itObj.done) {
+    acc = f(acc, nextVal);
+    itObj = xsIt.next();
+    nextVal = itObj.value;
+  }
+  return acc;
+}
+
+// foldr :: (a -> b -> b) -> b -> [a] -> b
+function foldr(f, acc, xs) {
+  var xsIt = xs[Symbol.iterator]();
+  return _foldr(f, acc, xsIt);
+
+  function _foldr(_f, _acc, _xsIt) {
+    var _itObj = _xsIt.next();
+    if (_itObj.done) {
+      return _acc;
+    }return _f(_itObj.value, _foldr(_f, _acc, _xsIt));
+  }
+}
+
+// foldr1 :: (a -> a -> a) -> [a] -> a
+function foldr1(f, xs) {
+  var _getIteratorAndObj = getIteratorAndObj(xs);
+
+  var xsIt = _getIteratorAndObj.xsIt;
+  var itObj = _getIteratorAndObj.itObj;
+  if (itObj.done) throw new Error("Cannot apply foldr1 to an empty list");
+  return _foldr1(f, itObj.value, xsIt);
+
+  function _foldr1(_f, _acc, _xsIt) {
+    var _itObj = _xsIt.next();
+    if (_itObj.done) {
+      return _acc;
+    }return _f(_acc, _foldr1(_f, _itObj.value, _xsIt));
+  }
+}
+
+// scanr :: (a -> b -> b) -> b -> [a] -> [b]
+function scanr(f, acc, xs) {
+  var xsIt = xs[Symbol.iterator]();
+  return _scanr(f, acc, xsIt);
+
+  function _scanr(_f, _b, _aIt) {
+    var _aObj = _aIt.next();
+    if (_aObj.done) {
+      return [_b];
+    }var ys = _scanr(_f, _b, _aIt);
+    ys.unshift(_f(_aObj.value, ys[0]));
+    return ys;
+  }
+}
+
+// replicate :: Int -> a -> [a]
+function replicate(n, a) {
+  var res = [];
+  // See the comment in repeat
+  while (n--) {
+    if (!isObject(a)) res.push(a);else res.push(clone(a));
+  }
+  return res;
 }
 
 // splitAt :: Int -> [a] -> ([a], [a])
@@ -5015,22 +5169,24 @@ function unzip3(a) {
   return res;
 }
 
-// replicate :: Int -> a -> [a]
-function replicate(n, a) {
-  var res = [];
-  // See the comment in repeat
-  while (n--) if (!isObject(a)) res.push(a);else res.push(clone(a));
-  return res;
-}
-
 module.exports = {
+  flip: flip,
   map: cu(map),
+  concat: cu(concat),
   filter: cu(filter),
   head: head,
   last: last,
   tail: tail,
   init: init,
   reverse: reverse,
+  foldl: cu(foldl),
+  foldl1: cu(foldl1),
+  foldr: cu(foldr),
+  foldr1: cu(foldr1),
+  scanl: cu(scanl),
+  scanl1: cu(scanl1),
+  scanr: cu(scanr),
+  //  scanr1: cu(scanr1),
   take: cu(take),
   drop: cu(drop),
   splitAt: cu(splitAt),
@@ -5046,13 +5202,13 @@ module.exports = {
   zipWithN: cu(zipWithN),
   unzip: unzip,
   unzip3: unzip3,
-  scanl: cu(scanl),
-  scanl1: cu(scanl1),
+  unzipN: unzipN,
   iterate: cu(iterate),
   repeat: repeat,
   replicate: cu(replicate),
   cycle: cycle
 };
+//drop first element
 // See the comment in repeat
 // cloning since objects are basically pointers in js.
 // If I just `yield a` then all the elements in the resulting
@@ -5062,5 +5218,22 @@ module.exports = {
 // Saving your life here, man.
 // See the comment in repeat
 
-},{"auto-curry":1,"clone":11}]},{},[12])(12)
+},{"./util":14,"auto-curry":1,"clone":11}],14:[function(require,module,exports){
+"use strict";
+
+// check if arg is an object
+// isObject :: a -> Bool
+exports.isObject = function isObject(arg) {
+  return typeof arg === "object" && arg !== null;
+};
+
+// get iterator and object returned by iterator
+// getIteratorAndObj :: (Iterable a) => a -> Object
+exports.getIteratorAndObj = function getIteratorAndObj(iterable) {
+  var xsIt = iterable[Symbol.iterator]();
+  var itObj = xsIt.next();
+  return { xsIt: xsIt, itObj: itObj };
+};
+
+},{}]},{},[12])(12)
 });
