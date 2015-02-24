@@ -1,8 +1,8 @@
 {
   "name": "lazit",
-  "version": "1.0.0",
-  "description": "Lazy composable operations on iterators/generators.",
-  "main": "src/index.js",
+  "version": "1.0.0-alpha",
+  "description": "Lazy, composable operations on iterators/generators for ES6 and beyond.",
+  "main": "build/lazit.js",
   "directories": {
     "test": "test"
   },
@@ -15,6 +15,7 @@
     "generators",
     "iterators",
     "lazy",
+    "compose",
     "functional",
     "programming",
     "prelude"
@@ -30,5 +31,13 @@
     "browserify": "^8.1.3",
     "jshint": "^2.6.0",
     "uglify-js": "^2.4.16"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zeusdeux/lazit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zeusdeux/lazit/issues"
+  },
+  "homepage": "https://github.com/zeusdeux/lazit"
 }
