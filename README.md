@@ -30,4 +30,13 @@ console.log([...scanr(f, [], take(4, iterate(v => ++v, 1)))]); // [[1,2,3,4],[2,
 
 Lazit exposes the same api whether you're dealing with infinite lists or finite lists. Also, the functions in lazit compose pretty much like they do in haskell, etc.
 
+Also, all functions that require more than one argument auto-curry in lazit. So you can do stuff like:
+
+```javascript
+var lazit        = require('lazit');
+var mapIncFn     = lazit.map(v => ++v); // pass only one out of the 2 args required by map
+
+console.log([...mapIncFn([1,2,3])]); // [2,3,4]
+```
+
 Current status: WIP
