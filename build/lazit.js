@@ -4562,11 +4562,9 @@ module.exports = cu(foldr1);
 
 // head :: [a] -> a
 function head(a) {
-  if (a[Symbol.iterator]().next().done) throw new Error("Cannot get head of empty list");
-  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
-    var x = _step.value;
-    return x;
-  }
+  var first = a[Symbol.iterator]().next();
+  if (first.done) throw new Error("Cannot get head of empty list");
+  return first.value;
 }
 
 module.exports = head;
