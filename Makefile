@@ -4,6 +4,7 @@ TEST       = ./test
 BUILD      = ./build
 BIN        = $(NODEMOD)/.bin
 NODEMOD    = ./node_modules
+TEST			 = ./test
 
 # files
 MAIN       = $(SRC)/index.js
@@ -18,7 +19,8 @@ jshint:
 	$(BIN)/jshint $(SRC)/*.js
 
 test:
-	$(BIN)/mocha -r should -u bdd -b $(TEST)/*
+# run test
+	$(BIN)/mocha -r should -u bdd -b --compilers js:babel/register $(TEST)/*.js
 
 $(BUILD)/lazit.min.js: $(BUILD)/lazit.js
 	$(BIN)/uglifyjs $^ \
@@ -30,10 +32,17 @@ $(BUILD)/lazit.min.js: $(BUILD)/lazit.js
   --comments \
   --stats
 
-$(BUILD)/lazit.js: $(SRC)/* $(NODEMOD)/auto-curry/index.js
+$(BUILD)/lazit.js: $(MAIN) $(BROWSER) $(SRC)/esnext/*.js $(NODEMOD)/auto-curry/index.js $(NODEMOD)/clone/clone.js
+# generate es5 variants of the source
+	$(BIN)/babel $(SRC)/esnext --out-dir $(SRC)/es5
+# todo:
+# gotta do something like below and provide readily usable
+# single functions in the browser
+#	$(BIN)/browserify-directory $(SRC)/esnext $(SRC/) -t babelify
 	$(BIN)/browserify -s lazit -e $(BROWSER) -o $@ -t babelify
 
 clean:
 	rm -f $(BUILD)/*
+	rm -f $(SRC)/es5/*
 
 .PHONY: all jshint test clean
