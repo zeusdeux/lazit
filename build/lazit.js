@@ -4205,39 +4205,11 @@ require("babelify/polyfill");
 
 module.exports = require("./");
 
-},{"./":13,"babelify/polyfill":6}],13:[function(require,module,exports){
+},{"./":50,"babelify/polyfill":6}],13:[function(require,module,exports){
 "use strict";
 
-var _toConsumableArray = function (arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } };
-
-var map = regeneratorRuntime.mark(
-
-// map :: (a -> b) -> [a] -> [b]
-function map(f, a) {
-  var _iterator, _step, x;
-  return regeneratorRuntime.wrap(function map$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        _iterator = a[Symbol.iterator]();
-      case 1:
-        if ((_step = _iterator.next()).done) {
-          context$1$0.next = 7;
-          break;
-        }
-        x = _step.value;
-        context$1$0.next = 5;
-        return f(x);
-      case 5:
-        context$1$0.next = 1;
-        break;
-      case 7:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, map, this);
-});
-
 var concat = regeneratorRuntime.mark(
+
 
 // concat :: [a] -> [a] -> [a]
 // Append two lists
@@ -4279,252 +4251,15 @@ function concat(a, b) {
   }, concat, this);
 });
 
-var filter = regeneratorRuntime.mark(
+var cu = require("auto-curry");
 
-// filter :: (a -> Bool) -> [a] -> [a]
-function filter(p, a) {
-  var _iterator, _step, x;
-  return regeneratorRuntime.wrap(function filter$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        _iterator = a[Symbol.iterator]();
-      case 1:
-        if ((_step = _iterator.next()).done) {
-          context$1$0.next = 8;
-          break;
-        }
-        x = _step.value;
-        if (!p(x)) {
-          context$1$0.next = 6;
-          break;
-        }
-        context$1$0.next = 6;
-        return x;
-      case 6:
-        context$1$0.next = 1;
-        break;
-      case 8:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, filter, this);
-});
+module.exports = cu(concat);
 
-var tail = regeneratorRuntime.mark(
-
-// tail :: [a] -> [a]
-// [a] should be non-empty
-function tail(a) {
-  return regeneratorRuntime.wrap(function tail$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        if (!a[Symbol.iterator]().next().done) {
-          context$1$0.next = 2;
-          break;
-        }
-        throw new Error("Cannot get tail of empty list");
-      case 2:
-        return context$1$0.delegateYield(drop(1, a), "t0", 3);
-      case 3:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, tail, this);
-});
-
-var init = regeneratorRuntime.mark(
-
-// init :: [a] -> [a]
-// [a] should be non-empty
-function init(a) {
-  var _getIteratorAndObj, xsIt, itObj;
-  return regeneratorRuntime.wrap(function init$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        if (!a[Symbol.iterator]().next().done) {
-          context$1$0.next = 2;
-          break;
-        }
-        throw new Error("Cannot get init of empty list");
-      case 2:
-        _getIteratorAndObj = getIteratorAndObj(a);
-        xsIt = _getIteratorAndObj.xsIt;
-        itObj = _getIteratorAndObj.itObj;
-        xsIt.next();
-      case 6:
-        if (itObj.done) {
-          context$1$0.next = 11;
-          break;
-        }
-        context$1$0.next = 9;
-        return xsIt.next().value;
-      case 9:
-        context$1$0.next = 6;
-        break;
-      case 11:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, init, this);
-});
-
-var scanl = regeneratorRuntime.mark(
-
-// building lists
-
-// scans
-// scanl :: (b -> a -> b) -> b -> [a] -> [b]
-function scanl(f, acc, xs) {
-  var _iterator, _step, x;
-  return regeneratorRuntime.wrap(function scanl$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        _iterator = xs[Symbol.iterator]();
-      case 1:
-        if ((_step = _iterator.next()).done) {
-          context$1$0.next = 8;
-          break;
-        }
-        x = _step.value;
-        context$1$0.next = 5;
-        return acc;
-      case 5:
-        acc = f(acc, x);
-      case 6:
-        context$1$0.next = 1;
-        break;
-      case 8:
-        context$1$0.next = 10;
-        return acc;
-      case 10:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, scanl, this);
-});
-
-var scanl1 = regeneratorRuntime.mark(
-
-// scanl1 :: (a -> a -> a) -> [a] -> [a]
-// scanl1 f [x1, x2, ...] == [x1, x1 `f` x2, ...]
-function scanl1(f, xs) {
-  var prev, _iterator, _step, x;
-  return regeneratorRuntime.wrap(function scanl1$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        prev = null;
-        _iterator = xs[Symbol.iterator]();
-      case 2:
-        if ((_step = _iterator.next()).done) {
-          context$1$0.next = 10;
-          break;
-        }
-        x = _step.value;
-        if (null !== prev) x = f(prev, x);
-        context$1$0.next = 7;
-        return x;
-      case 7:
-        prev = x;
-      case 8:
-        context$1$0.next = 2;
-        break;
-      case 10:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, scanl1, this);
-});
-
-var iterate = regeneratorRuntime.mark(
-
-// fix this implementation ffs
-// scanr1 :: (a -> a -> a) -> [a] -> [a]
-// function scanr1(f, xs){
-//   var itObj = xs[Symbol.iterator]().next();
-//   if (itObj.done) return [];
-//   else return _scanr1(f, itObj.value, xs[Symbol.iterator]());
-
-//   function _scanr1(_f, _b, _aIt) {
-//     let _aObj = _aIt.next();
-//     if (_aObj.done) return _b;
-//     let ys = _scanr1(_f, _b, _aIt);
-//     if (Array.isArray(ys)) ys.unshift(_f(_aObj.value, ys[0]));
-//     else {
-//       let temp = [];
-//       temp.push(_f(_aObj.value, ys));
-//       ys = temp;
-//     }
-//     return ys;
-//   }
-// }
-
-// infinite lists
-// iterate :: (a -> a) -> a -> [a]
-function iterate(f, a) {
-  return regeneratorRuntime.wrap(function iterate$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        if (!true) {
-          context$1$0.next = 11;
-          break;
-        }
-        if (isObject(a)) {
-          context$1$0.next = 6;
-          break;
-        }
-        context$1$0.next = 4;
-        return a;
-      case 4:
-        context$1$0.next = 8;
-        break;
-      case 6:
-        context$1$0.next = 8;
-        return clone(a);
-      case 8:
-        a = f(a);
-        context$1$0.next = 0;
-        break;
-      case 11:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, iterate, this);
-});
-
-var repeat = regeneratorRuntime.mark(
-
-// repeat :: a -> [a]
-function repeat(a) {
-  return regeneratorRuntime.wrap(function repeat$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        if (!true) {
-          context$1$0.next = 10;
-          break;
-        }
-        if (isObject(a)) {
-          context$1$0.next = 6;
-          break;
-        }
-        context$1$0.next = 4;
-        return a;
-      case 4:
-        context$1$0.next = 8;
-        break;
-      case 6:
-        context$1$0.next = 8;
-        return clone(a);
-      case 8:
-        context$1$0.next = 0;
-        break;
-      case 10:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, repeat, this);
-});
+},{"auto-curry":1}],14:[function(require,module,exports){
+"use strict";
 
 var cycle = regeneratorRuntime.mark(
+
 
 // cycle :: [a] -> [a]
 function cycle(a) {
@@ -4568,7 +4303,708 @@ function cycle(a) {
   }, cycle, this);
 });
 
+var clone = require("clone");
+var isObject = require("./util").isObject;
+
+module.exports = cycle;
+// See the comment in repeat
+
+},{"./util":43,"clone":11}],15:[function(require,module,exports){
+"use strict";
+
+var drop = regeneratorRuntime.mark(
+
+
+// drop :: Int -> [a] -> [a]
+function drop(n, a) {
+  var _iterator, _step, x;
+  return regeneratorRuntime.wrap(function drop$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        _iterator = a[Symbol.iterator]();
+      case 1:
+        if ((_step = _iterator.next()).done) {
+          context$1$0.next = 12;
+          break;
+        }
+        x = _step.value;
+        if (!n) {
+          context$1$0.next = 8;
+          break;
+        }
+        --n;
+        return context$1$0.abrupt("continue", 10);
+      case 8:
+        context$1$0.next = 10;
+        return x;
+      case 10:
+        context$1$0.next = 1;
+        break;
+      case 12:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, drop, this);
+});
+
+var cu = require("auto-curry");
+
+module.exports = cu(drop);
+
+},{"auto-curry":1}],16:[function(require,module,exports){
+"use strict";
+
+var dropWhile = regeneratorRuntime.mark(
+
+
+// dropWhile :: (a -> Bool) -> [a] -> [a]
+function dropWhile(p, a) {
+  var doneDropping, _iterator, _step, x;
+  return regeneratorRuntime.wrap(function dropWhile$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        doneDropping = false;
+        _iterator = a[Symbol.iterator]();
+      case 2:
+        if ((_step = _iterator.next()).done) {
+          context$1$0.next = 13;
+          break;
+        }
+        x = _step.value;
+        if (!(p(x) && !doneDropping)) {
+          context$1$0.next = 8;
+          break;
+        }
+        return context$1$0.abrupt("continue", 11);
+      case 8:
+        doneDropping = true;
+        context$1$0.next = 11;
+        return x;
+      case 11:
+        context$1$0.next = 2;
+        break;
+      case 13:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, dropWhile, this);
+});
+
+var cu = require("auto-curry");
+
+
+module.exports = cu(dropWhile);
+
+},{"auto-curry":1}],17:[function(require,module,exports){
+"use strict";
+
+var filter = regeneratorRuntime.mark(
+
+
+// filter :: (a -> Bool) -> [a] -> [a]
+function filter(p, a) {
+  var _iterator, _step, x;
+  return regeneratorRuntime.wrap(function filter$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        _iterator = a[Symbol.iterator]();
+      case 1:
+        if ((_step = _iterator.next()).done) {
+          context$1$0.next = 8;
+          break;
+        }
+        x = _step.value;
+        if (!p(x)) {
+          context$1$0.next = 6;
+          break;
+        }
+        context$1$0.next = 6;
+        return x;
+      case 6:
+        context$1$0.next = 1;
+        break;
+      case 8:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, filter, this);
+});
+
+var cu = require("auto-curry");
+
+module.exports = cu(filter);
+
+},{"auto-curry":1}],18:[function(require,module,exports){
+"use strict";
+
+// flip :: (a -> b -> c) -> b -> a -> c
+function flip(f) {
+  return function () {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return f.call(null, args[1], args[0]);
+  };
+}
+
+module.exports = flip;
+
+},{}],19:[function(require,module,exports){
+"use strict";
+
+var cu = require("auto-curry");
+var getIteratorAndObj = require("./util").getIteratorAndObj;
+
+
+// reducing lists
+// foldl :: (b -> a -> b) -> b -> [a] -> b
+// input list must be finite
+function foldl(f, acc, xs) {
+  var _getIteratorAndObj = getIteratorAndObj(xs);
+
+  var xsIt = _getIteratorAndObj.xsIt;
+  var itObj = _getIteratorAndObj.itObj;
+
+
+  // unrolling recursive foldl definition
+  // into a simple loop
+  // like a tail call optimizer would have done
+  while (!itObj.done) {
+    acc = f(acc, itObj.value);
+    itObj = xsIt.next();
+  }
+  return acc;
+}
+
+module.exports = cu(foldl);
+
+},{"./util":43,"auto-curry":1}],20:[function(require,module,exports){
+"use strict";
+
+var cu = require("auto-curry");
+var getIteratorAndObj = require("./util").getIteratorAndObj;
+
+
+// foldl1 :: (a -> a -> a) -> [a] -> a
+function foldl1(f, xs) {
+  var _getIteratorAndObj = getIteratorAndObj(xs);
+
+  var xsIt = _getIteratorAndObj.xsIt;
+  var itObj = _getIteratorAndObj.itObj;
+  var acc = itObj.value;
+  var nextVal;
+
+  if (itObj.done) throw new Error("Cannot apply foldl1 to an empty list");
+
+  itObj = xsIt.next();
+  nextVal = itObj.value;
+
+  while (!itObj.done) {
+    acc = f(acc, nextVal);
+    itObj = xsIt.next();
+    nextVal = itObj.value;
+  }
+  return acc;
+}
+
+module.exports = cu(foldl1);
+
+},{"./util":43,"auto-curry":1}],21:[function(require,module,exports){
+"use strict";
+
+var cu = require("auto-curry");
+
+
+// foldr :: (a -> b -> b) -> b -> [a] -> b
+function foldr(f, acc, xs) {
+  var xsIt = xs[Symbol.iterator]();
+  return _foldr(f, acc, xsIt);
+
+  function _foldr(_f, _acc, _xsIt) {
+    var _itObj = _xsIt.next();
+    if (_itObj.done) {
+      return _acc;
+    }return _f(_itObj.value, _foldr(_f, _acc, _xsIt));
+  }
+}
+
+module.exports = cu(foldr);
+
+},{"auto-curry":1}],22:[function(require,module,exports){
+"use strict";
+
+var cu = require("auto-curry");
+var getIteratorAndObj = require("./util").getIteratorAndObj;
+
+
+// foldr1 :: (a -> a -> a) -> [a] -> a
+function foldr1(f, xs) {
+  var _getIteratorAndObj = getIteratorAndObj(xs);
+
+  var xsIt = _getIteratorAndObj.xsIt;
+  var itObj = _getIteratorAndObj.itObj;
+  if (itObj.done) throw new Error("Cannot apply foldr1 to an empty list");
+  return _foldr1(f, itObj.value, xsIt);
+
+  function _foldr1(_f, _acc, _xsIt) {
+    var _itObj = _xsIt.next();
+    if (_itObj.done) {
+      return _acc;
+    }return _f(_acc, _foldr1(_f, _itObj.value, _xsIt));
+  }
+}
+
+module.exports = cu(foldr1);
+
+},{"./util":43,"auto-curry":1}],23:[function(require,module,exports){
+"use strict";
+
+// head :: [a] -> a
+function head(a) {
+  if (a[Symbol.iterator]().next().done) throw new Error("Cannot get head of empty list");
+  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+    var x = _step.value;
+    return x;
+  }
+}
+
+module.exports = head;
+
+},{}],24:[function(require,module,exports){
+"use strict";
+
+var init = regeneratorRuntime.mark(
+
+
+// init :: [a] -> [a]
+// [a] should be non-empty
+function init(a) {
+  var _getIteratorAndObj, xsIt, itObj;
+  return regeneratorRuntime.wrap(function init$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        if (!a[Symbol.iterator]().next().done) {
+          context$1$0.next = 2;
+          break;
+        }
+        throw new Error("Cannot get init of empty list");
+      case 2:
+        _getIteratorAndObj = getIteratorAndObj(a);
+        xsIt = _getIteratorAndObj.xsIt;
+        itObj = _getIteratorAndObj.itObj;
+        xsIt.next();
+      case 6:
+        if (itObj.done) {
+          context$1$0.next = 11;
+          break;
+        }
+        context$1$0.next = 9;
+        return xsIt.next().value;
+      case 9:
+        context$1$0.next = 6;
+        break;
+      case 11:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, init, this);
+});
+
+var getIteratorAndObj = require("./util").getIteratorAndObj;
+
+module.exports = init;
+//drop first element
+
+},{"./util":43}],25:[function(require,module,exports){
+"use strict";
+
+var iterate = regeneratorRuntime.mark(
+
+
+// iterate :: (a -> a) -> a -> [a]
+function iterate(f, a) {
+  return regeneratorRuntime.wrap(function iterate$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        if (!true) {
+          context$1$0.next = 11;
+          break;
+        }
+        if (isObject(a)) {
+          context$1$0.next = 6;
+          break;
+        }
+        context$1$0.next = 4;
+        return a;
+      case 4:
+        context$1$0.next = 8;
+        break;
+      case 6:
+        context$1$0.next = 8;
+        return clone(a);
+      case 8:
+        a = f(a);
+        context$1$0.next = 0;
+        break;
+      case 11:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, iterate, this);
+});
+
+var clone = require("clone");
+var cu = require("auto-curry");
+var isObject = require("./util").isObject;
+
+module.exports = cu(iterate);
+// See the comment in repeat
+
+},{"./util":43,"auto-curry":1,"clone":11}],26:[function(require,module,exports){
+"use strict";
+
+var _toConsumableArray = function (arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } };
+
+// last :: [a] -> a
+// [a] must be finite and non-empty
+function last(a) {
+  if (a[Symbol.iterator]().next().done) throw new Error("Cannot get last of empty list");
+  if (!Array.isArray(a)) a = [].concat(_toConsumableArray(a));
+  return a[a.length - 1];
+}
+
+module.exports = last;
+
+},{}],27:[function(require,module,exports){
+"use strict";
+
+var map = regeneratorRuntime.mark(
+
+
+// map :: (a -> b) -> [a] -> [b]
+function map(f, a) {
+  var _iterator, _step, x;
+  return regeneratorRuntime.wrap(function map$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        _iterator = a[Symbol.iterator]();
+      case 1:
+        if ((_step = _iterator.next()).done) {
+          context$1$0.next = 7;
+          break;
+        }
+        x = _step.value;
+        context$1$0.next = 5;
+        return f(x);
+      case 5:
+        context$1$0.next = 1;
+        break;
+      case 7:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, map, this);
+});
+
+var cu = require("auto-curry");
+
+module.exports = cu(map);
+
+},{"auto-curry":1}],28:[function(require,module,exports){
+"use strict";
+
+var repeat = regeneratorRuntime.mark(
+
+
+// repeat :: a -> [a]
+function repeat(a) {
+  return regeneratorRuntime.wrap(function repeat$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        if (!true) {
+          context$1$0.next = 10;
+          break;
+        }
+        if (isObject(a)) {
+          context$1$0.next = 6;
+          break;
+        }
+        context$1$0.next = 4;
+        return a;
+      case 4:
+        context$1$0.next = 8;
+        break;
+      case 6:
+        context$1$0.next = 8;
+        return clone(a);
+      case 8:
+        context$1$0.next = 0;
+        break;
+      case 10:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, repeat, this);
+});
+
+var clone = require("clone");
+var isObject = require("./util").isObject;
+
+module.exports = repeat;
+// cloning since objects are basically pointers in js.
+// If I just `yield a` then all the elements in the resulting
+// list will contain reference to the same object and all hell
+// will break loose, it'll rain cows and horses, ketchup will
+// replace water and all the liquour in the world will disappear.
+// Saving your life here, man.
+
+},{"./util":43,"clone":11}],29:[function(require,module,exports){
+"use strict";
+
+var clone = require("clone");
+var cu = require("auto-curry");
+var isObject = require("./util").isObject;
+
+
+// replicate :: Int -> a -> [a]
+function replicate(n, a) {
+  var res = [];
+  // See the comment in repeat
+  while (n--) {
+    if (!isObject(a)) res.push(a);else res.push(clone(a));
+  }
+  return res;
+}
+
+module.exports = cu(replicate);
+
+},{"./util":43,"auto-curry":1,"clone":11}],30:[function(require,module,exports){
+"use strict";
+
+// reverse :: [a] -> [a]
+// [a] should be finite
+function reverse(a) {
+  var res = [];
+  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+    var x = _step.value;
+    res.unshift(x);
+  }return res;
+}
+
+module.exports = reverse;
+
+},{}],31:[function(require,module,exports){
+"use strict";
+
+var scanl = regeneratorRuntime.mark(
+
+
+// scanl :: (b -> a -> b) -> b -> [a] -> [b]
+function scanl(f, acc, xs) {
+  var _iterator, _step, x;
+  return regeneratorRuntime.wrap(function scanl$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        _iterator = xs[Symbol.iterator]();
+      case 1:
+        if ((_step = _iterator.next()).done) {
+          context$1$0.next = 8;
+          break;
+        }
+        x = _step.value;
+        context$1$0.next = 5;
+        return acc;
+      case 5:
+        acc = f(acc, x);
+      case 6:
+        context$1$0.next = 1;
+        break;
+      case 8:
+        context$1$0.next = 10;
+        return acc;
+      case 10:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, scanl, this);
+});
+
+var cu = require("auto-curry");
+
+module.exports = cu(scanl);
+
+},{"auto-curry":1}],32:[function(require,module,exports){
+"use strict";
+
+var scanl1 = regeneratorRuntime.mark(
+
+
+// scanl1 :: (a -> a -> a) -> [a] -> [a]
+// scanl1 f [x1, x2, ...] == [x1, x1 `f` x2, ...]
+function scanl1(f, xs) {
+  var prev, _iterator, _step, x;
+  return regeneratorRuntime.wrap(function scanl1$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        prev = null;
+        _iterator = xs[Symbol.iterator]();
+      case 2:
+        if ((_step = _iterator.next()).done) {
+          context$1$0.next = 10;
+          break;
+        }
+        x = _step.value;
+        if (null !== prev) x = f(prev, x);
+        context$1$0.next = 7;
+        return x;
+      case 7:
+        prev = x;
+      case 8:
+        context$1$0.next = 2;
+        break;
+      case 10:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, scanl1, this);
+});
+
+var cu = require("auto-curry");
+
+module.exports = cu(scanl1);
+
+},{"auto-curry":1}],33:[function(require,module,exports){
+"use strict";
+
+var cu = require("auto-curry");
+
+
+// scanr :: (a -> b -> b) -> b -> [a] -> [b]
+function scanr(f, acc, xs) {
+  var xsIt = xs[Symbol.iterator]();
+  return _scanr(f, acc, xsIt);
+
+  function _scanr(_f, _b, _aIt) {
+    var _aObj = _aIt.next();
+    if (_aObj.done) {
+      return [_b];
+    }var ys = _scanr(_f, _b, _aIt);
+    ys.unshift(_f(_aObj.value, ys[0]));
+    return ys;
+  }
+}
+
+module.exports = cu(scanr);
+
+},{"auto-curry":1}],34:[function(require,module,exports){
+"use strict";
+
+var cu = require("auto-curry");
+
+
+// span :: (a -> Bool) -> [a] -> ([a], [a])
+function span(p, a) {
+  var l = [],
+      r = [];
+  var doneTaking = false;
+  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+    var x = _step.value;
+    if (p(x) && !doneTaking) l.push(x);else {
+      doneTaking = true;
+      r.push(x);
+    }
+  }
+  return [l, r];
+}
+
+
+module.exports = cu(span);
+
+},{"auto-curry":1}],35:[function(require,module,exports){
+"use strict";
+
+var cu = require("auto-curry");
+
+
+// break :: (a -> Bool) -> [a] -> ([a], [a])
+// calling it spanInv which stands for spanInverse
+// since break is a reserved word
+function spanInv(p, a) {
+  var l = [],
+      r = [];
+  var doneTaking = false;
+  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+    var x = _step.value;
+    if (!p(x) && !doneTaking) l.push(x);else {
+      doneTaking = true;
+      r.push(x);
+    }
+  }
+  return [l, r];
+}
+
+
+module.exports = cu(spanInv);
+
+},{"auto-curry":1}],36:[function(require,module,exports){
+"use strict";
+
+var cu = require("auto-curry");
+
+
+// splitAt :: Int -> [a] -> ([a], [a])
+function splitAt(i, a) {
+  var l = [],
+      r = [];
+  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+    var x = _step.value;
+    if (i) {
+      l.push(x);
+      i--;
+    } else r.push(x);
+  }
+  return [l, r];
+}
+
+
+module.exports = cu(splitAt);
+
+},{"auto-curry":1}],37:[function(require,module,exports){
+"use strict";
+
+var tail = regeneratorRuntime.mark(
+
+
+// tail :: [a] -> [a]
+// [a] should be non-empty
+function tail(a) {
+  return regeneratorRuntime.wrap(function tail$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        if (!a[Symbol.iterator]().next().done) {
+          context$1$0.next = 2;
+          break;
+        }
+        throw new Error("Cannot get tail of empty list");
+      case 2:
+        return context$1$0.delegateYield(drop(1, a), "t0", 3);
+      case 3:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, tail, this);
+});
+
+var drop = require("./drop");
+
+module.exports = tail;
+
+},{"./drop":15}],38:[function(require,module,exports){
+"use strict";
+
 var take = regeneratorRuntime.mark(
+
 
 // take :: Int -> [a] -> [a]
 function take(n, a) {
@@ -4604,41 +5040,15 @@ function take(n, a) {
   }, take, this);
 });
 
-var drop = regeneratorRuntime.mark(
+var cu = require("auto-curry");
 
-// drop :: Int -> [a] -> [a]
-function drop(n, a) {
-  var _iterator, _step, x;
-  return regeneratorRuntime.wrap(function drop$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        _iterator = a[Symbol.iterator]();
-      case 1:
-        if ((_step = _iterator.next()).done) {
-          context$1$0.next = 12;
-          break;
-        }
-        x = _step.value;
-        if (!n) {
-          context$1$0.next = 8;
-          break;
-        }
-        --n;
-        return context$1$0.abrupt("continue", 10);
-      case 8:
-        context$1$0.next = 10;
-        return x;
-      case 10:
-        context$1$0.next = 1;
-        break;
-      case 12:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, drop, this);
-});
+module.exports = cu(take);
+
+},{"auto-curry":1}],39:[function(require,module,exports){
+"use strict";
 
 var takeWhile = regeneratorRuntime.mark(
+
 
 // takeWhile :: (a -> Bool) -> [a] -> [a]
 function takeWhile(p, a) {
@@ -4674,47 +5084,185 @@ function takeWhile(p, a) {
   }, takeWhile, this);
 });
 
-var dropWhile = regeneratorRuntime.mark(
+var cu = require("auto-curry");
 
-// dropWhile :: (a -> Bool) -> [a] -> [a]
-function dropWhile(p, a) {
-  var doneDropping, _iterator, _step, x;
-  return regeneratorRuntime.wrap(function dropWhile$(context$1$0) {
+
+module.exports = cu(takeWhile);
+
+},{"auto-curry":1}],40:[function(require,module,exports){
+"use strict";
+
+// unzip :: [(a, b)] -> ([a], [b])
+function unzip(a) {
+  var res = [[], []];
+  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+    var x = _step.value;
+    for (var _iterator2 = x[Symbol.iterator](), _step2; !(_step2 = _iterator2.next()).done;) {
+      var y = _step2.value;
+      var curr = res.shift();
+      curr.push(y);
+      res.push(curr);
+    }
+  }
+  return res;
+}
+
+module.exports = unzip;
+
+},{}],41:[function(require,module,exports){
+"use strict";
+
+// unzip3 :: [(a, b, c)] -> ([a], [b], [c])
+function unzip3(a) {
+  var res = [[], [], []];
+  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+    var x = _step.value;
+    for (var _iterator2 = x[Symbol.iterator](), _step2; !(_step2 = _iterator2.next()).done;) {
+      var y = _step2.value;
+      var curr = res.shift();
+      curr.push(y);
+      res.push(curr);
+    }
+  }
+  return res;
+}
+
+
+module.exports = unzip3;
+
+},{}],42:[function(require,module,exports){
+"use strict";
+
+var _toConsumableArray = function (arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } };
+
+var replicate = require("./replicate");
+
+// unzipN :: [(a, b, .... , n)] -> ([a], [b], ...., [n])
+function unzipN(a) {
+  var res = [].concat(_toConsumableArray(replicate(a.length, [])));
+  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+    var x = _step.value;
+    for (var _iterator2 = x[Symbol.iterator](), _step2; !(_step2 = _iterator2.next()).done;) {
+      var y = _step2.value;
+      var curr = res.shift();
+      curr.push(y);
+      res.push(curr);
+    }
+  }
+  return res;
+}
+
+
+module.exports = unzipN;
+
+},{"./replicate":29}],43:[function(require,module,exports){
+"use strict";
+
+// check if arg is an object
+// isObject :: a -> Bool
+exports.isObject = function isObject(arg) {
+  return typeof arg === "object" && arg !== null;
+};
+
+// get iterator and object returned by iterator
+// getIteratorAndObj :: (Iterable a) => a -> Object
+exports.getIteratorAndObj = function getIteratorAndObj(iterable) {
+  var xsIt = iterable[Symbol.iterator]();
+  var itObj = xsIt.next();
+  return { xsIt: xsIt, itObj: itObj };
+};
+
+},{}],44:[function(require,module,exports){
+"use strict";
+
+var zip = regeneratorRuntime.mark(
+
+
+// zip :: [a] -> [b] -> [[a,b]]
+function zip(a, b) {
+  var aIterator, bIterator, aObj, bObj;
+  return regeneratorRuntime.wrap(function zip$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
-        doneDropping = false;
-        _iterator = a[Symbol.iterator]();
-      case 2:
-        if ((_step = _iterator.next()).done) {
-          context$1$0.next = 13;
+        aIterator = a[Symbol.iterator]();
+        bIterator = b[Symbol.iterator]();
+        aObj = aIterator.next();
+        bObj = bIterator.next();
+      case 4:
+        if (!(!aObj.done && !bObj.done)) {
+          context$1$0.next = 11;
           break;
         }
-        x = _step.value;
-        if (!(p(x) && !doneDropping)) {
-          context$1$0.next = 8;
-          break;
-        }
-        return context$1$0.abrupt("continue", 11);
-      case 8:
-        doneDropping = true;
-        context$1$0.next = 11;
-        return x;
-      case 11:
-        context$1$0.next = 2;
+        context$1$0.next = 7;
+        return [aObj.value, bObj.value];
+      case 7:
+        aObj = aIterator.next();
+        bObj = bIterator.next();
+        context$1$0.next = 4;
         break;
-      case 13:
+      case 11:
       case "end":
         return context$1$0.stop();
     }
-  }, dropWhile, this);
+  }, zip, this);
 });
 
-var zipN = regeneratorRuntime.mark(
+var cu = require("auto-curry");
 
-// zips
 
-// zipN :: [a] -> [b] .... -> [n] -> [[a..n]]
+module.exports = cu(zip);
+
+},{"auto-curry":1}],45:[function(require,module,exports){
+"use strict";
+
+var zip3 = regeneratorRuntime.mark(
+
+
+// zip3 :: [a] -> [b] -> [c] -> [(a, b, c)]
+function zip3(a, b, c) {
+  var aIterator, bIterator, cIterator, aObj, bObj, cObj;
+  return regeneratorRuntime.wrap(function zip3$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        aIterator = a[Symbol.iterator]();
+        bIterator = b[Symbol.iterator]();
+        cIterator = c[Symbol.iterator]();
+        aObj = aIterator.next();
+        bObj = bIterator.next();
+        cObj = cIterator.next();
+      case 6:
+        if (!(!aObj.done && !bObj.done && !cObj.done)) {
+          context$1$0.next = 14;
+          break;
+        }
+        context$1$0.next = 9;
+        return [aObj.value, bObj.value, cObj.value];
+      case 9:
+        aObj = aIterator.next();
+        bObj = bIterator.next();
+        cObj = cIterator.next();
+        context$1$0.next = 6;
+        break;
+      case 14:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, zip3, this);
+});
+
+var cu = require("auto-curry");
+
+
+module.exports = cu(zip3);
+
+},{"auto-curry":1}],46:[function(require,module,exports){
+"use strict";
+
+var zipN = regeneratorRuntime.mark( // zipN :: [a] -> [b] .... -> [n] -> [[a..n]]
 // zips n lists together
+// zipN does NOT auto-curry since there's no way of
+// knowing it's arity till it's called i.e., it's
+// variadic and hence cannot be curried
 function zipN() {
   for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
@@ -4754,10 +5302,100 @@ function zipN() {
   }, zipN, this);
 });
 
-var zipWithN = regeneratorRuntime.mark(
 
-// zipWithN :: (a -> b -> .... -> n -> x) -> [a] -> [b] -> .... -> [n] -> [x]
+
+
+module.exports = zipN;
+
+},{}],47:[function(require,module,exports){
+"use strict";
+
+var zipWith = regeneratorRuntime.mark(
+
+
+// zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+function zipWith(f, a, b) {
+  var aIterator, bIterator, aObj, bObj;
+  return regeneratorRuntime.wrap(function zipWith$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        aIterator = a[Symbol.iterator]();
+        bIterator = b[Symbol.iterator]();
+        aObj = aIterator.next();
+        bObj = bIterator.next();
+      case 4:
+        if (!(!aObj.done && !bObj.done)) {
+          context$1$0.next = 11;
+          break;
+        }
+        context$1$0.next = 7;
+        return f(aObj.value, bObj.value);
+      case 7:
+        aObj = aIterator.next();
+        bObj = bIterator.next();
+        context$1$0.next = 4;
+        break;
+      case 11:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, zipWith, this);
+});
+
+var cu = require("auto-curry");
+
+
+module.exports = cu(zipWith);
+
+},{"auto-curry":1}],48:[function(require,module,exports){
+"use strict";
+
+var zipWith3 = regeneratorRuntime.mark(
+
+
+// zipWith3 :: (a -> b -> c -> d) -> [a] -> [b] -> [c] -> [d]
+function zipWith3(f, a, b, c) {
+  var aIterator, bIterator, cIterator, aObj, bObj, cObj;
+  return regeneratorRuntime.wrap(function zipWith3$(context$1$0) {
+    while (1) switch (context$1$0.prev = context$1$0.next) {
+      case 0:
+        aIterator = a[Symbol.iterator]();
+        bIterator = b[Symbol.iterator]();
+        cIterator = c[Symbol.iterator]();
+        aObj = aIterator.next();
+        bObj = bIterator.next();
+        cObj = cIterator.next();
+      case 6:
+        if (!(!aObj.done && !bObj.done && !cObj.done)) {
+          context$1$0.next = 14;
+          break;
+        }
+        context$1$0.next = 9;
+        return f(aObj.value, bObj.value, cObj.value);
+      case 9:
+        aObj = aIterator.next();
+        bObj = bIterator.next();
+        cObj = cIterator.next();
+        context$1$0.next = 6;
+        break;
+      case 14:
+      case "end":
+        return context$1$0.stop();
+    }
+  }, zipWith3, this);
+});
+
+var cu = require("auto-curry");
+
+
+module.exports = cu(zipWith3);
+
+},{"auto-curry":1}],49:[function(require,module,exports){
+"use strict";
+
+var zipWithN = regeneratorRuntime.mark( // zipWithN :: (a -> b -> .... -> n -> x) -> [a] -> [b] -> .... -> [n] -> [x]
 // applies a function to a each element in a zip of n lists and returns new list
+// zipWithN does NOT auto-curry since it's variadic
 function zipWithN(f) {
   for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     args[_key - 1] = arguments[_key];
@@ -4798,442 +5436,105 @@ function zipWithN(f) {
   }, zipWithN, this);
 });
 
-var zip = regeneratorRuntime.mark(
+module.exports = zipWithN;
 
-// specialized zips below
-
-// zip :: [a] -> [b] -> [[a,b]]
-function zip(a, b) {
-  var aIterator, bIterator, aObj, bObj;
-  return regeneratorRuntime.wrap(function zip$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        aIterator = a[Symbol.iterator]();
-        bIterator = b[Symbol.iterator]();
-        aObj = aIterator.next();
-        bObj = bIterator.next();
-      case 4:
-        if (!(!aObj.done && !bObj.done)) {
-          context$1$0.next = 11;
-          break;
-        }
-        context$1$0.next = 7;
-        return [aObj.value, bObj.value];
-      case 7:
-        aObj = aIterator.next();
-        bObj = bIterator.next();
-        context$1$0.next = 4;
-        break;
-      case 11:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, zip, this);
-});
-
-var zip3 = regeneratorRuntime.mark(
-
-// zip3 :: [a] -> [b] -> [c] -> [(a, b, c)]
-function zip3(a, b, c) {
-  var aIterator, bIterator, cIterator, aObj, bObj, cObj;
-  return regeneratorRuntime.wrap(function zip3$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        aIterator = a[Symbol.iterator]();
-        bIterator = b[Symbol.iterator]();
-        cIterator = c[Symbol.iterator]();
-        aObj = aIterator.next();
-        bObj = bIterator.next();
-        cObj = cIterator.next();
-      case 6:
-        if (!(!aObj.done && !bObj.done && !cObj.done)) {
-          context$1$0.next = 14;
-          break;
-        }
-        context$1$0.next = 9;
-        return [aObj.value, bObj.value, cObj.value];
-      case 9:
-        aObj = aIterator.next();
-        bObj = bIterator.next();
-        cObj = cIterator.next();
-        context$1$0.next = 6;
-        break;
-      case 14:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, zip3, this);
-});
-
-var zipWith = regeneratorRuntime.mark(
-
-// zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
-function zipWith(f, a, b) {
-  var aIterator, bIterator, aObj, bObj;
-  return regeneratorRuntime.wrap(function zipWith$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        aIterator = a[Symbol.iterator]();
-        bIterator = b[Symbol.iterator]();
-        aObj = aIterator.next();
-        bObj = bIterator.next();
-      case 4:
-        if (!(!aObj.done && !bObj.done)) {
-          context$1$0.next = 11;
-          break;
-        }
-        context$1$0.next = 7;
-        return f(aObj.value, bObj.value);
-      case 7:
-        aObj = aIterator.next();
-        bObj = bIterator.next();
-        context$1$0.next = 4;
-        break;
-      case 11:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, zipWith, this);
-});
-
-var zipWith3 = regeneratorRuntime.mark(
-
-// zipWith3 :: (a -> b -> c -> d) -> [a] -> [b] -> [c] -> [d]
-function zipWith3(f, a, b, c) {
-  var aIterator, bIterator, cIterator, aObj, bObj, cObj;
-  return regeneratorRuntime.wrap(function zipWith3$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        aIterator = a[Symbol.iterator]();
-        bIterator = b[Symbol.iterator]();
-        cIterator = c[Symbol.iterator]();
-        aObj = aIterator.next();
-        bObj = bIterator.next();
-        cObj = cIterator.next();
-      case 6:
-        if (!(!aObj.done && !bObj.done && !cObj.done)) {
-          context$1$0.next = 14;
-          break;
-        }
-        context$1$0.next = 9;
-        return f(aObj.value, bObj.value, cObj.value);
-      case 9:
-        aObj = aIterator.next();
-        bObj = bIterator.next();
-        cObj = cIterator.next();
-        context$1$0.next = 6;
-        break;
-      case 14:
-      case "end":
-        return context$1$0.stop();
-    }
-  }, zipWith3, this);
-});
+},{}],50:[function(require,module,exports){
+"use strict";
 
 /* jshint esnext:true */
 
-var clone = require("clone");
-var cu = require("auto-curry");
-var isObject = require("./util").isObject;
-var getIteratorAndObj = require("./util").getIteratorAndObj;
+// fn ops
+var flip = require("./esnext/flip");
 
-// flip :: (a -> b -> c) -> b -> a -> c
-function flip(f) {
-  return function () {
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+// generic list ops pt 1
+var map = require("./esnext/map");
+var concat = require("./esnext/concat");
+var filter = require("./esnext/filter");
+var head = require("./esnext/head");
+var last = require("./esnext/last");
+var tail = require("./esnext/tail");
+var init = require("./esnext/init");
+var reverse = require("./esnext/reverse");
 
-    return f.call(null, args[1], args[0]);
-  };
-}
+// folds
+var foldl = require("./esnext/foldl");
+var foldl1 = require("./esnext/foldl1");
+var foldr = require("./esnext/foldr");
+var foldr1 = require("./esnext/foldr1");
 
-// head :: [a] -> a
-function head(a) {
-  if (a[Symbol.iterator]().next().done) throw new Error("Cannot get head of empty list");
-  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
-    var x = _step.value;
-    return x;
-  }
-}
+// scans
+var scanl = require("./esnext/scanl");
+var scanl1 = require("./esnext/scanl1");
+var scanr = require("./esnext/scanr");
+// var scanr1 = require('./esnext/scanr1');
 
-// last :: [a] -> a
-// [a] must be finite and non-empty
-function last(a) {
-  if (a[Symbol.iterator]().next().done) throw new Error("Cannot get last of empty list");
-  if (!Array.isArray(a)) a = [].concat(_toConsumableArray(a));
-  return a[a.length - 1];
-}
+// infinite lists
+var iterate = require("./esnext/iterate");
+var repeat = require("./esnext/repeat");
+var replicate = require("./esnext/replicate");
+var cycle = require("./esnext/cycle");
 
-// null :: [a] -> Bool
-// not needed since you can test array.length
+// generic list ops pt 2
+var take = require("./esnext/take");
+var drop = require("./esnext/drop");
+var splitAt = require("./esnext/splitAt");
+var takeWhile = require("./esnext/takeWhile");
+var dropWhile = require("./esnext/dropWhile");
+var span = require("./esnext/span");
+var spanInv = require("./esnext/spanInv");
 
-// length :: [a] -> Int
-// not needed since we have array.length
+// zips
+var zip = require("./esnext/zip");
+var zip3 = require("./esnext/zip3");
+var zipN = require("./esnext/zipN");
+var zipWith = require("./esnext/zipWith");
+var zipWith3 = require("./esnext/zipWith3");
+var zipWithN = require("./esnext/zipWithN");
 
-// reverse :: [a] -> [a]
-// [a] should be finite
-function reverse(a) {
-  var res = [];
-  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
-    var x = _step.value;
-    res.unshift(x);
-  }return res;
-}
-
-// reducing lists
-// foldl :: (b -> a -> b) -> b -> [a] -> b
-// input list must be finite
-function foldl(f, acc, xs) {
-  var _getIteratorAndObj = getIteratorAndObj(xs);
-
-  var xsIt = _getIteratorAndObj.xsIt;
-  var itObj = _getIteratorAndObj.itObj;
-
-
-  // unrolling recursive foldl definition
-  // into a simple loop
-  // like a tail call optimizer would have done
-  while (!itObj.done) {
-    acc = f(acc, itObj.value);
-    itObj = xsIt.next();
-  }
-  return acc;
-}
-
-// foldl1 :: (a -> a -> a) -> [a] -> a
-function foldl1(f, xs) {
-  var _getIteratorAndObj = getIteratorAndObj(xs);
-
-  var xsIt = _getIteratorAndObj.xsIt;
-  var itObj = _getIteratorAndObj.itObj;
-  var acc = itObj.value;
-  var nextVal;
-
-  if (itObj.done) throw new Error("Cannot apply foldl1 to an empty list");
-
-  itObj = xsIt.next();
-  nextVal = itObj.value;
-
-  while (!itObj.done) {
-    acc = f(acc, nextVal);
-    itObj = xsIt.next();
-    nextVal = itObj.value;
-  }
-  return acc;
-}
-
-// foldr :: (a -> b -> b) -> b -> [a] -> b
-function foldr(f, acc, xs) {
-  var xsIt = xs[Symbol.iterator]();
-  return _foldr(f, acc, xsIt);
-
-  function _foldr(_f, _acc, _xsIt) {
-    var _itObj = _xsIt.next();
-    if (_itObj.done) {
-      return _acc;
-    }return _f(_itObj.value, _foldr(_f, _acc, _xsIt));
-  }
-}
-
-// foldr1 :: (a -> a -> a) -> [a] -> a
-function foldr1(f, xs) {
-  var _getIteratorAndObj = getIteratorAndObj(xs);
-
-  var xsIt = _getIteratorAndObj.xsIt;
-  var itObj = _getIteratorAndObj.itObj;
-  if (itObj.done) throw new Error("Cannot apply foldr1 to an empty list");
-  return _foldr1(f, itObj.value, xsIt);
-
-  function _foldr1(_f, _acc, _xsIt) {
-    var _itObj = _xsIt.next();
-    if (_itObj.done) {
-      return _acc;
-    }return _f(_acc, _foldr1(_f, _itObj.value, _xsIt));
-  }
-}
-
-// scanr :: (a -> b -> b) -> b -> [a] -> [b]
-function scanr(f, acc, xs) {
-  var xsIt = xs[Symbol.iterator]();
-  return _scanr(f, acc, xsIt);
-
-  function _scanr(_f, _b, _aIt) {
-    var _aObj = _aIt.next();
-    if (_aObj.done) {
-      return [_b];
-    }var ys = _scanr(_f, _b, _aIt);
-    ys.unshift(_f(_aObj.value, ys[0]));
-    return ys;
-  }
-}
-
-// replicate :: Int -> a -> [a]
-function replicate(n, a) {
-  var res = [];
-  // See the comment in repeat
-  while (n--) {
-    if (!isObject(a)) res.push(a);else res.push(clone(a));
-  }
-  return res;
-}
-
-// splitAt :: Int -> [a] -> ([a], [a])
-function splitAt(i, a) {
-  var l = [],
-      r = [];
-  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
-    var x = _step.value;
-    if (i) {
-      l.push(x);
-      i--;
-    } else r.push(x);
-  }
-  return [l, r];
-}
-
-// span :: (a -> Bool) -> [a] -> ([a], [a])
-function span(p, a) {
-  var l = [],
-      r = [];
-  var doneTaking = false;
-  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
-    var x = _step.value;
-    if (p(x) && !doneTaking) l.push(x);else {
-      doneTaking = true;
-      r.push(x);
-    }
-  }
-  return [l, r];
-}
-
-// break :: (a -> Bool) -> [a] -> ([a], [a])
-// calling it spanInv which stands for spanInverse
-// since break is a reserved word
-function spanInv(p, a) {
-  var l = [],
-      r = [];
-  var doneTaking = false;
-  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
-    var x = _step.value;
-    if (!p(x) && !doneTaking) l.push(x);else {
-      doneTaking = true;
-      r.push(x);
-    }
-  }
-  return [l, r];
-}
-
-// unzipN :: [(a, b, .... , n)] -> ([a], [b], ...., [n])
-function unzipN(a) {
-  var res = [].concat(_toConsumableArray(replicate(a.length, [])));
-  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
-    var x = _step.value;
-    for (var _iterator2 = x[Symbol.iterator](), _step2; !(_step2 = _iterator2.next()).done;) {
-      var y = _step2.value;
-      var curr = res.shift();
-      curr.push(y);
-      res.push(curr);
-    }
-  }
-  return res;
-}
-
-// unzip :: [(a, b)] -> ([a], [b])
-function unzip(a) {
-  var res = [[], []];
-  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
-    var x = _step.value;
-    for (var _iterator2 = x[Symbol.iterator](), _step2; !(_step2 = _iterator2.next()).done;) {
-      var y = _step2.value;
-      var curr = res.shift();
-      curr.push(y);
-      res.push(curr);
-    }
-  }
-  return res;
-}
-
-// unzip3 :: [(a, b, c)] -> ([a], [b], [c])
-function unzip3(a) {
-  var res = [[], [], []];
-  for (var _iterator = a[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
-    var x = _step.value;
-    for (var _iterator2 = x[Symbol.iterator](), _step2; !(_step2 = _iterator2.next()).done;) {
-      var y = _step2.value;
-      var curr = res.shift();
-      curr.push(y);
-      res.push(curr);
-    }
-  }
-  return res;
-}
+// unzips
+var unzip = require("./esnext/unzip");
+var unzipN = require("./esnext/unzipN");
+var unzip3 = require("./esnext/unzip3");
 
 module.exports = {
   flip: flip,
-  map: cu(map),
-  concat: cu(concat),
-  filter: cu(filter),
+  map: map,
+  concat: concat,
+  filter: filter,
   head: head,
   last: last,
   tail: tail,
   init: init,
   reverse: reverse,
-  foldl: cu(foldl),
-  foldl1: cu(foldl1),
-  foldr: cu(foldr),
-  foldr1: cu(foldr1),
-  scanl: cu(scanl),
-  scanl1: cu(scanl1),
-  scanr: cu(scanr),
-  //  scanr1: cu(scanr1),
-  take: cu(take),
-  drop: cu(drop),
-  splitAt: cu(splitAt),
-  takeWhile: cu(takeWhile),
-  dropWhile: cu(dropWhile),
-  span: cu(span),
-  spanInv: cu(spanInv),
-  zip: cu(zip),
-  zip3: cu(zip3),
-  zipWith: cu(zipWith),
-  zipWith3: cu(zipWith3),
-  zipN: cu(zipN),
-  zipWithN: cu(zipWithN),
+  foldl: foldl,
+  foldl1: foldl1,
+  foldr: foldr,
+  foldr1: foldr1,
+  scanl: scanl,
+  scanl1: scanl1,
+  scanr: scanr,
+  // scanr1: scanr1,
+  take: take,
+  drop: drop,
+  splitAt: splitAt,
+  takeWhile: takeWhile,
+  dropWhile: dropWhile,
+  span: span,
+  spanInv: spanInv,
+  zip: zip,
+  zip3: zip3,
+  zipWith: zipWith,
+  zipWith3: zipWith3,
+  zipN: zipN,
+  zipWithN: zipWithN,
   unzip: unzip,
   unzip3: unzip3,
   unzipN: unzipN,
-  iterate: cu(iterate),
+  iterate: iterate,
   repeat: repeat,
-  replicate: cu(replicate),
+  replicate: replicate,
   cycle: cycle
 };
-//drop first element
-// See the comment in repeat
-// cloning since objects are basically pointers in js.
-// If I just `yield a` then all the elements in the resulting
-// list will contain reference to the same object and all hell
-// will break loose, it'll rain cows and horses, ketchup will
-// replace water and all the liquour in the world will disappear.
-// Saving your life here, man.
-// See the comment in repeat
 
-},{"./util":14,"auto-curry":1,"clone":11}],14:[function(require,module,exports){
-"use strict";
-
-// check if arg is an object
-// isObject :: a -> Bool
-exports.isObject = function isObject(arg) {
-  return typeof arg === "object" && arg !== null;
-};
-
-// get iterator and object returned by iterator
-// getIteratorAndObj :: (Iterable a) => a -> Object
-exports.getIteratorAndObj = function getIteratorAndObj(iterable) {
-  var xsIt = iterable[Symbol.iterator]();
-  var itObj = xsIt.next();
-  return { xsIt: xsIt, itObj: itObj };
-};
-
-},{}]},{},[12])(12)
+},{"./esnext/concat":13,"./esnext/cycle":14,"./esnext/drop":15,"./esnext/dropWhile":16,"./esnext/filter":17,"./esnext/flip":18,"./esnext/foldl":19,"./esnext/foldl1":20,"./esnext/foldr":21,"./esnext/foldr1":22,"./esnext/head":23,"./esnext/init":24,"./esnext/iterate":25,"./esnext/last":26,"./esnext/map":27,"./esnext/repeat":28,"./esnext/replicate":29,"./esnext/reverse":30,"./esnext/scanl":31,"./esnext/scanl1":32,"./esnext/scanr":33,"./esnext/span":34,"./esnext/spanInv":35,"./esnext/splitAt":36,"./esnext/tail":37,"./esnext/take":38,"./esnext/takeWhile":39,"./esnext/unzip":40,"./esnext/unzip3":41,"./esnext/unzipN":42,"./esnext/zip":44,"./esnext/zip3":45,"./esnext/zipN":46,"./esnext/zipWith":47,"./esnext/zipWith3":48,"./esnext/zipWithN":49}]},{},[12])(12)
 });
