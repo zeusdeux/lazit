@@ -22,6 +22,9 @@ test:
 # run test
 	$(BIN)/mocha -r should -u bdd -b --compilers js:babel/register $(TEST)/*.js
 
+test-watch:
+	$(BIN)/mocha -r should -u bdd -b --compilers js:babel/register $(TEST)/*.js -w
+
 $(BUILD)/lazit.min.js: $(BUILD)/lazit.js
 	$(BIN)/uglifyjs $^ \
   -o $@ \
@@ -45,4 +48,4 @@ clean:
 	rm -f $(BUILD)/*
 	rm -f $(SRC)/es5/*
 
-.PHONY: all jshint test clean
+.PHONY: all force jshint test test-watch clean
