@@ -4,10 +4,15 @@ var getIteratorAndObj = require('./util').getIteratorAndObj;
 // init :: [a] -> [a]
 // [a] should be non-empty
 function* init(a) {
-  if (a[Symbol.iterator]().next().done) throw new Error('Cannot get init of empty list');
   var {xsIt, itObj} = getIteratorAndObj(a);
-  xsIt.next(); //drop first element
-  while (!itObj.done) yield xsIt.next().value;
+  var nextObj = xsIt.next();
+
+  if (itObj.done) throw new Error('Cannot get init of empty list');
+  while (!nextObj.done) {
+    yield itObj.value;
+    itObj = nextObj;
+    nextObj = xsIt.next();
+  }
 }
 
 module.exports = init;
