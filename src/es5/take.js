@@ -50,9 +50,9 @@ function take(n, a) {
 
       case 19:
         context$1$0.prev = 19;
-        context$1$0.t10 = context$1$0["catch"](3);
+        context$1$0.t9 = context$1$0["catch"](3);
         _didIteratorError = true;
-        _iteratorError = context$1$0.t10;
+        _iteratorError = context$1$0.t9;
 
       case 23:
         context$1$0.prev = 23;

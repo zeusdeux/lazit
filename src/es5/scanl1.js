@@ -19,7 +19,7 @@ function scanl1(f, xs) {
 
       case 6:
         if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-          context$1$0.next = 15;
+          context$1$0.next = 16;
           break;
         }
 
@@ -30,53 +30,56 @@ function scanl1(f, xs) {
         return x;
 
       case 11:
+        x = isObject(x) ? clone(x) : x;
         prev = x;
 
-      case 12:
+      case 13:
         _iteratorNormalCompletion = true;
         context$1$0.next = 6;
         break;
 
-      case 15:
-        context$1$0.next = 21;
+      case 16:
+        context$1$0.next = 22;
         break;
 
-      case 17:
-        context$1$0.prev = 17;
+      case 18:
+        context$1$0.prev = 18;
         context$1$0.t8 = context$1$0["catch"](4);
         _didIteratorError = true;
         _iteratorError = context$1$0.t8;
 
-      case 21:
-        context$1$0.prev = 21;
+      case 22:
         context$1$0.prev = 22;
+        context$1$0.prev = 23;
 
         if (!_iteratorNormalCompletion && _iterator["return"]) {
           _iterator["return"]();
         }
 
-      case 24:
-        context$1$0.prev = 24;
+      case 25:
+        context$1$0.prev = 25;
 
         if (!_didIteratorError) {
-          context$1$0.next = 27;
+          context$1$0.next = 28;
           break;
         }
 
         throw _iteratorError;
 
-      case 27:
-        return context$1$0.finish(24);
-
       case 28:
-        return context$1$0.finish(21);
+        return context$1$0.finish(25);
 
       case 29:
+        return context$1$0.finish(22);
+
+      case 30:
       case "end":
         return context$1$0.stop();
     }
-  }, scanl1, this, [[4, 17, 21, 29], [22,, 24, 28]]);
+  }, scanl1, this, [[4, 18, 22, 30], [23,, 25, 29]]);
 });
+var clone = require("clone");
 var cu = require("auto-curry");
+var isObject = require("./util").isObject;
 
 module.exports = cu(scanl1);

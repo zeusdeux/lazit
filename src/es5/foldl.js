@@ -1,6 +1,8 @@
 "use strict";
 
+var clone = require("clone");
 var cu = require("auto-curry");
+var isObject = require("./util").isObject;
 var getIteratorAndObj = require("./util").getIteratorAndObj;
 
 // reducing lists
@@ -11,6 +13,9 @@ function foldl(f, acc, xs) {
 
   var xsIt = _getIteratorAndObj.xsIt;
   var itObj = _getIteratorAndObj.itObj;
+
+  // clone to prevent input mutation
+  if (isObject(acc)) acc = clone(acc);
 
   // unrolling recursive foldl definition
   // into a simple loop

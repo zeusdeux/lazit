@@ -4453,9 +4453,10 @@ module.exports = flip;
 },{}],19:[function(require,module,exports){
 "use strict";
 
+var clone = require("clone");
 var cu = require("auto-curry");
+var isObject = require("./util").isObject;
 var getIteratorAndObj = require("./util").getIteratorAndObj;
-
 
 // reducing lists
 // foldl :: (b -> a -> b) -> b -> [a] -> b
@@ -4466,6 +4467,9 @@ function foldl(f, acc, xs) {
   var xsIt = _getIteratorAndObj.xsIt;
   var itObj = _getIteratorAndObj.itObj;
 
+
+  // clone to prevent input mutation
+  if (isObject(acc)) acc = clone(acc);
 
   // unrolling recursive foldl definition
   // into a simple loop
@@ -4479,10 +4483,12 @@ function foldl(f, acc, xs) {
 
 module.exports = cu(foldl);
 
-},{"./util":43,"auto-curry":1}],20:[function(require,module,exports){
+},{"./util":43,"auto-curry":1,"clone":11}],20:[function(require,module,exports){
 "use strict";
 
+var clone = require("clone");
 var cu = require("auto-curry");
+var isObject = require("./util").isObject;
 var getIteratorAndObj = require("./util").getIteratorAndObj;
 
 
@@ -4492,7 +4498,8 @@ function foldl1(f, xs) {
 
   var xsIt = _getIteratorAndObj.xsIt;
   var itObj = _getIteratorAndObj.itObj;
-  var acc = itObj.value;
+  // because pass by reference
+  var acc = isObject(itObj.value) ? clone(itObj.value) : itObj.value;
   var nextVal;
 
   if (itObj.done) throw new Error("Cannot apply foldl1 to an empty list");
@@ -4510,15 +4517,19 @@ function foldl1(f, xs) {
 
 module.exports = cu(foldl1);
 
-},{"./util":43,"auto-curry":1}],21:[function(require,module,exports){
+},{"./util":43,"auto-curry":1,"clone":11}],21:[function(require,module,exports){
 "use strict";
 
+var clone = require("clone");
 var cu = require("auto-curry");
+var isObject = require("./util").isObject;
 
 
 // foldr :: (a -> b -> b) -> b -> [a] -> b
 function foldr(f, acc, xs) {
   var xsIt = xs[Symbol.iterator]();
+
+  acc = isObject(acc) ? clone(acc) : acc;
   return _foldr(f, acc, xsIt);
 
   function _foldr(_f, _acc, _xsIt) {
@@ -4531,10 +4542,12 @@ function foldr(f, acc, xs) {
 
 module.exports = cu(foldr);
 
-},{"auto-curry":1}],22:[function(require,module,exports){
+},{"./util":43,"auto-curry":1,"clone":11}],22:[function(require,module,exports){
 "use strict";
 
+var clone = require("clone");
 var cu = require("auto-curry");
+var isObject = require("./util").isObject;
 var getIteratorAndObj = require("./util").getIteratorAndObj;
 
 
@@ -4544,20 +4557,23 @@ function foldr1(f, xs) {
 
   var xsIt = _getIteratorAndObj.xsIt;
   var itObj = _getIteratorAndObj.itObj;
+
+
   if (itObj.done) throw new Error("Cannot apply foldr1 to an empty list");
+
   return _foldr1(f, itObj.value, xsIt);
 
   function _foldr1(_f, _acc, _xsIt) {
     var _itObj = _xsIt.next();
     if (_itObj.done) {
-      return _acc;
+      return isObject(_acc) ? clone(_acc) : _acc;
     }return _f(_acc, _foldr1(_f, _itObj.value, _xsIt));
   }
 }
 
 module.exports = cu(foldr1);
 
-},{"./util":43,"auto-curry":1}],23:[function(require,module,exports){
+},{"./util":43,"auto-curry":1,"clone":11}],23:[function(require,module,exports){
 "use strict";
 
 // head :: [a] -> a
@@ -4578,31 +4594,32 @@ var init = regeneratorRuntime.mark(
 // init :: [a] -> [a]
 // [a] should be non-empty
 function init(a) {
-  var _getIteratorAndObj, xsIt, itObj;
+  var _getIteratorAndObj, xsIt, itObj, nextObj;
   return regeneratorRuntime.wrap(function init$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
-        if (!a[Symbol.iterator]().next().done) {
-          context$1$0.next = 2;
-          break;
-        }
-        throw new Error("Cannot get init of empty list");
-      case 2:
         _getIteratorAndObj = getIteratorAndObj(a);
         xsIt = _getIteratorAndObj.xsIt;
         itObj = _getIteratorAndObj.itObj;
-        xsIt.next();
+        nextObj = xsIt.next();
+        if (!itObj.done) {
+          context$1$0.next = 6;
+          break;
+        }
+        throw new Error("Cannot get init of empty list");
       case 6:
-        if (itObj.done) {
-          context$1$0.next = 11;
+        if (nextObj.done) {
+          context$1$0.next = 13;
           break;
         }
         context$1$0.next = 9;
-        return xsIt.next().value;
+        return itObj.value;
       case 9:
+        itObj = nextObj;
+        nextObj = xsIt.next();
         context$1$0.next = 6;
         break;
-      case 11:
+      case 13:
       case "end":
         return context$1$0.stop();
     }
@@ -4612,7 +4629,6 @@ function init(a) {
 var getIteratorAndObj = require("./util").getIteratorAndObj;
 
 module.exports = init;
-//drop first element
 
 },{"./util":43}],25:[function(require,module,exports){
 "use strict";
@@ -4804,35 +4820,39 @@ function scanl(f, acc, xs) {
   return regeneratorRuntime.wrap(function scanl$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
+        acc = isObject(acc) ? clone(acc) : acc;
         _iterator = xs[Symbol.iterator]();
-      case 1:
+      case 2:
         if ((_step = _iterator.next()).done) {
-          context$1$0.next = 8;
+          context$1$0.next = 10;
           break;
         }
         x = _step.value;
-        context$1$0.next = 5;
+        context$1$0.next = 6;
         return acc;
-      case 5:
-        acc = f(acc, x);
       case 6:
-        context$1$0.next = 1;
-        break;
+        acc = isObject(acc) ? clone(acc) : acc;
+        acc = f(acc, x);
       case 8:
-        context$1$0.next = 10;
-        return acc;
+        context$1$0.next = 2;
+        break;
       case 10:
+        context$1$0.next = 12;
+        return acc;
+      case 12:
       case "end":
         return context$1$0.stop();
     }
   }, scanl, this);
 });
 
+var clone = require("clone");
 var cu = require("auto-curry");
+var isObject = require("./util").isObject;
 
 module.exports = cu(scanl);
 
-},{"auto-curry":1}],32:[function(require,module,exports){
+},{"./util":43,"auto-curry":1,"clone":11}],32:[function(require,module,exports){
 "use strict";
 
 var scanl1 = regeneratorRuntime.mark(
@@ -4849,7 +4869,7 @@ function scanl1(f, xs) {
         _iterator = xs[Symbol.iterator]();
       case 2:
         if ((_step = _iterator.next()).done) {
-          context$1$0.next = 10;
+          context$1$0.next = 11;
           break;
         }
         x = _step.value;
@@ -4857,22 +4877,25 @@ function scanl1(f, xs) {
         context$1$0.next = 7;
         return x;
       case 7:
+        x = isObject(x) ? clone(x) : x;
         prev = x;
-      case 8:
+      case 9:
         context$1$0.next = 2;
         break;
-      case 10:
+      case 11:
       case "end":
         return context$1$0.stop();
     }
   }, scanl1, this);
 });
 
+var clone = require("clone");
 var cu = require("auto-curry");
+var isObject = require("./util").isObject;
 
 module.exports = cu(scanl1);
 
-},{"auto-curry":1}],33:[function(require,module,exports){
+},{"./util":43,"auto-curry":1,"clone":11}],33:[function(require,module,exports){
 "use strict";
 
 var cu = require("auto-curry");
@@ -4971,34 +4994,47 @@ module.exports = cu(splitAt);
 },{"auto-curry":1}],37:[function(require,module,exports){
 "use strict";
 
-var tail = regeneratorRuntime.mark(
-
-
-// tail :: [a] -> [a]
+var tail = regeneratorRuntime.mark( // tail :: [a] -> [a]
 // [a] should be non-empty
 function tail(a) {
+  var aIt, aObj;
   return regeneratorRuntime.wrap(function tail$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
-        if (!a[Symbol.iterator]().next().done) {
-          context$1$0.next = 2;
+        aIt = a[Symbol.iterator]();
+        aObj = aIt.next();
+        if (!aObj.done) {
+          context$1$0.next = 4;
           break;
         }
         throw new Error("Cannot get tail of empty list");
-      case 2:
-        return context$1$0.delegateYield(drop(1, a), "t0", 3);
-      case 3:
+      case 4:
+        if (!true) {
+          context$1$0.next = 14;
+          break;
+        }
+        aObj = aIt.next();
+        if (!aObj.done) {
+          context$1$0.next = 10;
+          break;
+        }
+        return context$1$0.abrupt("break", 14);
+      case 10:
+        context$1$0.next = 12;
+        return aObj.value;
+      case 12:
+        context$1$0.next = 4;
+        break;
+      case 14:
       case "end":
         return context$1$0.stop();
     }
   }, tail, this);
 });
 
-var drop = require("./drop");
-
 module.exports = tail;
 
-},{"./drop":15}],38:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 "use strict";
 
 var take = regeneratorRuntime.mark(

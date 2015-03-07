@@ -50,9 +50,9 @@ function takeWhile(p, a) {
 
       case 19:
         context$1$0.prev = 19;
-        context$1$0.t11 = context$1$0["catch"](3);
+        context$1$0.t10 = context$1$0["catch"](3);
         _didIteratorError = true;
-        _iteratorError = context$1$0.t11;
+        _iteratorError = context$1$0.t10;
 
       case 23:
         context$1$0.prev = 23;
