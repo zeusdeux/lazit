@@ -24,7 +24,8 @@
   "license": "MIT",
   "dependencies": {
     "auto-curry": "^0.2.0",
-    "clone": "^1.0.0"
+    "clone": "^1.0.0",
+    "is-generator": "^1.0.0"
   },
   "devDependencies": {
     "babel": "^4.6.0",
