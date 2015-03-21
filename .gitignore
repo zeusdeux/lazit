@@ -30,7 +30,7 @@ build/Release
 node_modules
 
 # Tern stuff
-.tern-*
+.tern-port
 
 # TAGS
 TAGS
