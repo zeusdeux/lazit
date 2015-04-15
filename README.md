@@ -1,4 +1,7 @@
 # lazit
+
+[![Build Status](https://travis-ci.org/zeusdeux/lazit.svg)](https://travis-ci.org/zeusdeux/lazit)
+
 Lazy, composable operations on iterators/generators for ES6 and beyond.
 
 > Use lazit right now with transpilers like [babeljs](http://babeljs.io) or the [Google Traceur Compiler](https://github.com/google/traceur-compiler)
