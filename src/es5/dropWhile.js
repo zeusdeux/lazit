@@ -47,9 +47,9 @@ function dropWhile(p, a) {
 
       case 20:
         context$1$0.prev = 20;
-        context$1$0.t4 = context$1$0["catch"](4);
+        context$1$0.t7 = context$1$0["catch"](4);
         _didIteratorError = true;
-        _iteratorError = context$1$0.t4;
+        _iteratorError = context$1$0.t7;
 
       case 24:
         context$1$0.prev = 24;

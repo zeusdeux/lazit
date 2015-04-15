@@ -46,9 +46,9 @@ function drop(n, a) {
 
       case 19:
         context$1$0.prev = 19;
-        context$1$0.t3 = context$1$0["catch"](3);
+        context$1$0.t6 = context$1$0["catch"](3);
         _didIteratorError = true;
-        _iteratorError = context$1$0.t3;
+        _iteratorError = context$1$0.t6;
 
       case 23:
         context$1$0.prev = 23;

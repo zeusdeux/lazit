@@ -41,9 +41,9 @@ function scanl(f, acc, xs) {
 
       case 17:
         context$1$0.prev = 17;
-        context$1$0.t7 = context$1$0["catch"](4);
+        context$1$0.t10 = context$1$0["catch"](4);
         _didIteratorError = true;
-        _iteratorError = context$1$0.t7;
+        _iteratorError = context$1$0.t10;
 
       case 21:
         context$1$0.prev = 21;

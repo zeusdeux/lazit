@@ -18,6 +18,7 @@ function unzip(a) {
         for (var _iterator2 = x[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
           var y = _step2.value;
 
+          if (2 !== x.length) throw new SyntaxError("unzip expects a tuple to have exactly two elements");
           var curr = res.shift();
           curr.push(y);
           res.push(curr);

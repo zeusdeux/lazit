@@ -17,7 +17,7 @@ function take(n, a) {
 
       case 5:
         if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-          context$1$0.next = 17;
+          context$1$0.next = 16;
           break;
         }
 
@@ -32,57 +32,56 @@ function take(n, a) {
         return x;
 
       case 10:
-        context$1$0.next = 14;
+        context$1$0.next = 13;
         break;
 
       case 12:
-        if (_iterator["return"]) _iterator["return"]();
-        return context$1$0.abrupt("break", 17);
+        return context$1$0.abrupt("break", 16);
 
-      case 14:
+      case 13:
         _iteratorNormalCompletion = true;
         context$1$0.next = 5;
         break;
 
-      case 17:
-        context$1$0.next = 23;
+      case 16:
+        context$1$0.next = 22;
         break;
 
-      case 19:
-        context$1$0.prev = 19;
-        context$1$0.t9 = context$1$0["catch"](3);
+      case 18:
+        context$1$0.prev = 18;
+        context$1$0.t12 = context$1$0["catch"](3);
         _didIteratorError = true;
-        _iteratorError = context$1$0.t9;
+        _iteratorError = context$1$0.t12;
 
-      case 23:
+      case 22:
+        context$1$0.prev = 22;
         context$1$0.prev = 23;
-        context$1$0.prev = 24;
 
         if (!_iteratorNormalCompletion && _iterator["return"]) {
           _iterator["return"]();
         }
 
-      case 26:
-        context$1$0.prev = 26;
+      case 25:
+        context$1$0.prev = 25;
 
         if (!_didIteratorError) {
-          context$1$0.next = 29;
+          context$1$0.next = 28;
           break;
         }
 
         throw _iteratorError;
 
+      case 28:
+        return context$1$0.finish(25);
+
       case 29:
-        return context$1$0.finish(26);
+        return context$1$0.finish(22);
 
       case 30:
-        return context$1$0.finish(23);
-
-      case 31:
       case "end":
         return context$1$0.stop();
     }
-  }, take, this, [[3, 19, 23, 31], [24,, 26, 30]]);
+  }, take, this, [[3, 18, 22, 30], [23,, 25, 29]]);
 });
 var cu = require("auto-curry");
 

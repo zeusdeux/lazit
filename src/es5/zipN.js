@@ -4,7 +4,7 @@ var zipN = regeneratorRuntime.mark( // zipN :: [a] -> [b] .... -> [n] -> [[a..n]
 // zips n lists together
 // zipN does NOT auto-curry since there's no way of
 // knowing it's arity till it's called i.e., it's
-// variadic and hence cannot be curried
+// variadic and hence cannot be curried in javascript
 function zipN() {
   for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];

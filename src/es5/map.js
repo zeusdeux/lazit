@@ -36,9 +36,9 @@ function map(f, a) {
 
       case 14:
         context$1$0.prev = 14;
-        context$1$0.t6 = context$1$0["catch"](3);
+        context$1$0.t9 = context$1$0["catch"](3);
         _didIteratorError = true;
-        _iteratorError = context$1$0.t6;
+        _iteratorError = context$1$0.t9;
 
       case 18:
         context$1$0.prev = 18;

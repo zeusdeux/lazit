@@ -6,7 +6,8 @@ var replicate = require("./replicate");
 
 // unzipN :: [(a, b, .... , n)] -> ([a], [b], ...., [n])
 function unzipN(a) {
-  var res = [].concat(_toConsumableArray(replicate(a.length, [])));
+  var res;
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
@@ -14,6 +15,8 @@ function unzipN(a) {
   try {
     for (var _iterator = a[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var x = _step.value;
+
+      res = res || [].concat(_toConsumableArray(replicate(x.length, [])));
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
       var _iteratorError2 = undefined;
@@ -56,7 +59,7 @@ function unzipN(a) {
     }
   }
 
-  return res;
+  return res || [];
 }
 
 module.exports = unzipN;
