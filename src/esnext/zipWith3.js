@@ -6,9 +6,10 @@ function* zipWith3(f, a, b, c) {
   var aIterator = a[Symbol.iterator]();
   var bIterator = b[Symbol.iterator]();
   var cIterator = c[Symbol.iterator]();
-  var aObj = aIterator.next();
-  var bObj = bIterator.next();
-  var cObj = cIterator.next();
+  var aObj      = aIterator.next();
+  var bObj      = bIterator.next();
+  var cObj      = cIterator.next();
+
   while (!aObj.done && !bObj.done && !cObj.done) {
     yield f(aObj.value, bObj.value, cObj.value);
     aObj = aIterator.next();

@@ -3,7 +3,7 @@
 // zipWithN does NOT auto-curry since it's variadic
 function* zipWithN(f, ...args) {
   var iterators = args.map(v => v[Symbol.iterator]());
-  var itObjs = iterators.map(v => v.next());
+  var itObjs    = iterators.map(v => v.next());
 
   while (itObjs.filter(v => !v.done).length === itObjs.length) {
     let temp = itObjs.map(v => v.value);
