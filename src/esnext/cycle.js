@@ -1,11 +1,12 @@
-var clone    = require('clone');
-var isObject = require('./util').isObject;
-var isGenFn  = require('is-generator').fn;
+let clone    = require('clone');
+let isObject = require('./util').isObject;
+let isGenFn  = require('is-generator').fn;
+
 
 // cycle :: [a] -> [a]
 function* cycle(a) {
-  var isGenFnFlag = isGenFn(a);
-  var tempIt = isGenFnFlag ? a()[Symbol.iterator]() : a[Symbol.iterator]() ;
+  let isGenFnFlag = isGenFn(a);
+  let tempIt      = isGenFnFlag ? a()[Symbol.iterator]() : a[Symbol.iterator]();
 
   if (tempIt.next().done) throw new Error('Cannot cycle empty list/iterable');
 
@@ -15,13 +16,9 @@ function* cycle(a) {
   }
 
   while (true) {
-    if (!isGenFnFlag) {
-      // See the comment in repeat
-      for (let x of a) yield* yieldIt(x);
-    }
-    else {
-      for (let x of a()) yield* yieldIt(x);
-    }
+    // See the comment in repeat
+    if (!isGenFnFlag) for (let x of a) yield* yieldIt(x);
+    else for (let x of a()) yield* yieldIt(x);
   }
 }
 

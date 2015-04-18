@@ -6,8 +6,9 @@ exports.isObject = function isObject(arg) {
 
 // get iterator and object returned by iterator
 // getIteratorAndObj :: (Iterable a) => a -> Object
-exports.getIteratorAndObj = function getIteratorAndObj(iterable){
-  var xsIt = iterable[Symbol.iterator]();
-  var itObj = xsIt.next();
+exports.getIteratorAndObj = function getIteratorAndObj(iterable) {
+  let xsIt  = iterable[Symbol.iterator]();
+  let itObj = xsIt.next();
+
   return {xsIt, itObj};
 };

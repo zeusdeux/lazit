@@ -1,6 +1,6 @@
 // unzip :: [(a, b)] -> ([a], [b])
 function unzip(a) {
-  var res = [
+  let res = [
     [],
     []
   ];
@@ -8,6 +8,7 @@ function unzip(a) {
     for (let y of x) {
       if (2 !== x.length) throw new SyntaxError('unzip expects a tuple to have exactly two elements');
       let curr = res.shift();
+
       curr.push(y);
       res.push(curr);
     }

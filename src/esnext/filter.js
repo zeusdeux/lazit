@@ -1,4 +1,4 @@
-var cu = require('auto-curry');
+let cu = require('auto-curry');
 
 
 // filter :: (a -> Bool) -> [a] -> [a]

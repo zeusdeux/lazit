@@ -1,57 +1,57 @@
 /* jshint esnext:true */
 
 // fn ops
-var flip      = require('./esnext/flip');
+let flip      = require('./esnext/flip');
 
 // generic list ops pt 1
-var map       = require('./esnext/map');
-var concat    = require('./esnext/concat');
-var filter    = require('./esnext/filter');
-var head      = require('./esnext/head');
-var last      = require('./esnext/last');
-var tail      = require('./esnext/tail');
-var init      = require('./esnext/init');
-var reverse   = require('./esnext/reverse');
+let map       = require('./esnext/map');
+let concat    = require('./esnext/concat');
+let filter    = require('./esnext/filter');
+let head      = require('./esnext/head');
+let last      = require('./esnext/last');
+let tail      = require('./esnext/tail');
+let init      = require('./esnext/init');
+let reverse   = require('./esnext/reverse');
 
 // folds
-var foldl     = require('./esnext/foldl');
-var foldl1    = require('./esnext/foldl1');
-var foldr     = require('./esnext/foldr');
-var foldr1    = require('./esnext/foldr1');
+let foldl     = require('./esnext/foldl');
+let foldl1    = require('./esnext/foldl1');
+let foldr     = require('./esnext/foldr');
+let foldr1    = require('./esnext/foldr1');
 
 // scans
-var scanl     = require('./esnext/scanl');
-var scanl1    = require('./esnext/scanl1');
-var scanr     = require('./esnext/scanr');
-// var scanr1 = require('./esnext/scanr1');
+let scanl     = require('./esnext/scanl');
+let scanl1    = require('./esnext/scanl1');
+let scanr     = require('./esnext/scanr');
+// let scanr1 = require('./esnext/scanr1');
 
 // infinite lists
-var iterate   = require('./esnext/iterate');
-var repeat    = require('./esnext/repeat');
-var replicate = require('./esnext/replicate');
-var cycle     = require('./esnext/cycle');
+let iterate   = require('./esnext/iterate');
+let repeat    = require('./esnext/repeat');
+let replicate = require('./esnext/replicate');
+let cycle     = require('./esnext/cycle');
 
 // generic list ops pt 2
-var take      = require('./esnext/take');
-var drop      = require('./esnext/drop');
-var splitAt   = require('./esnext/splitAt');
-var takeWhile = require('./esnext/takeWhile');
-var dropWhile = require('./esnext/dropWhile');
-var span      = require('./esnext/span');
-var spanInv   = require('./esnext/spanInv');
+let take      = require('./esnext/take');
+let drop      = require('./esnext/drop');
+let splitAt   = require('./esnext/splitAt');
+let takeWhile = require('./esnext/takeWhile');
+let dropWhile = require('./esnext/dropWhile');
+let span      = require('./esnext/span');
+let spanInv   = require('./esnext/spanInv');
 
 // zips
-var zip       = require('./esnext/zip');
-var zip3      = require('./esnext/zip3');
-var zipN      = require('./esnext/zipN');
-var zipWith   = require('./esnext/zipWith');
-var zipWith3  = require('./esnext/zipWith3');
-var zipWithN  = require('./esnext/zipWithN');
+let zip       = require('./esnext/zip');
+let zip3      = require('./esnext/zip3');
+let zipN      = require('./esnext/zipN');
+let zipWith   = require('./esnext/zipWith');
+let zipWith3  = require('./esnext/zipWith3');
+let zipWithN  = require('./esnext/zipWithN');
 
 // unzips
-var unzip     = require('./esnext/unzip');
-var unzipN    = require('./esnext/unzipN');
-var unzip3    = require('./esnext/unzip3');
+let unzip     = require('./esnext/unzip');
+let unzipN    = require('./esnext/unzipN');
+let unzip3    = require('./esnext/unzip3');
 
 module.exports = {
   flip: flip,

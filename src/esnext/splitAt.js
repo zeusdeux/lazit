@@ -1,9 +1,10 @@
-var cu = require('auto-curry');
+let cu = require('auto-curry');
 
 
 // splitAt :: Int -> [a] -> ([a], [a])
 function splitAt(i, a) {
-  var l = [], r = [];
+  let l = [], r = [];
+
   for (let x of a) {
     if (i) {
       l.push(x);

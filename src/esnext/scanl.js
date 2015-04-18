@@ -1,6 +1,6 @@
-var clone    = require('clone');
-var cu       = require('auto-curry');
-var isObject = require('./util').isObject;
+let clone    = require('clone');
+let cu       = require('auto-curry');
+let isObject = require('./util').isObject;
 
 
 // scanl :: (b -> a -> b) -> b -> [a] -> [b]

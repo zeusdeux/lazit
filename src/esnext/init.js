@@ -1,11 +1,11 @@
-var getIteratorAndObj = require('./util').getIteratorAndObj;
+let getIteratorAndObj = require('./util').getIteratorAndObj;
 
 
 // init :: [a] -> [a]
 // [a] should be non-empty
 function* init(a) {
-  var {xsIt, itObj} = getIteratorAndObj(a);
-  var nextObj = xsIt.next();
+  let {xsIt, itObj} = getIteratorAndObj(a);
+  let nextObj       = xsIt.next();
 
   if (itObj.done) throw new Error('Cannot get init of empty list');
   while (!nextObj.done) {

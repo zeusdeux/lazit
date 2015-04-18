@@ -1,5 +1,5 @@
-var clone    = require('clone');
-var isObject = require('./util').isObject;
+let clone    = require('clone');
+let isObject = require('./util').isObject;
 
 
 // repeat :: a -> [a]

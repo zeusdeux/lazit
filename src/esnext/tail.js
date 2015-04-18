@@ -1,8 +1,8 @@
 // tail :: [a] -> [a]
 // [a] should be non-empty
 function* tail(a) {
-  var aIt  = a[Symbol.iterator]();
-  var aObj = aIt.next();
+  let aIt  = a[Symbol.iterator]();
+  let aObj = aIt.next();
 
   if (aObj.done) throw new Error('Cannot get tail of empty list');
   while (true) {

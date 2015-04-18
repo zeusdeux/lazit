@@ -1,10 +1,12 @@
-var cu = require('auto-curry');
+let cu = require('auto-curry');
 
 
 // span :: (a -> Bool) -> [a] -> ([a], [a])
 function span(p, a) {
-  var l = [], r = [];
-  var doneTaking = false;
+  let l          = [];
+  let r          = [];
+  let doneTaking = false;
+
   for (let x of a) {
     if (p(x) && !doneTaking) l.push(x);
     else {
