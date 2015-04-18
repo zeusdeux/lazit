@@ -1,6 +1,6 @@
 {
   "name": "lazit",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "description": "Lazy, composable operations on iterators/generators for ES6 and beyond.",
   "main": "build/lazit.js",
   "directories": {
