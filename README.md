@@ -29,6 +29,14 @@ let g = (a,b) => { a = a.slice(); a.unshift(b); return a; };
 
 console.log([...scanl(g, [], [1,2,3,4])]); // [[],[1],[2,1],[3,2,1],[4,3,2,1]]
 console.log(scanr(f, [], take(4, iterate(v => ++v, 1)))); // [[1,2,3,4],[2,3,4],[3,4],[4],[]]
+
+// or
+
+let map  = lazit.map;
+let take = lazit.take;
+console.log([...take(3, map(v => { if (v === 0) throw Error('Divide by zero error'); else return 1/v; }, [1,2,3,0,5]))]);
+// output is [ 1, 0.5, 0.3333333333333333 ]
+// it doesn't blow up since the evaluation is lazy
 ```
 
 Lazit exposes the same api whether you're dealing with infinite lists or finite lists. Also, the functions in lazit compose pretty much like they do in haskell, etc.
