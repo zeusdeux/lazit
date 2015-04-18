@@ -5774,14 +5774,14 @@ function take(n, a) {
 
       case 5:
         if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-          context$1$0.next = 16;
+          context$1$0.next = 23;
           break;
         }
 
         x = _step.value;
 
-        if (! n--) {
-          context$1$0.next = 12;
+        if (!(n > 1)) {
+          context$1$0.next = 13;
           break;
         }
 
@@ -5789,60 +5789,77 @@ function take(n, a) {
         return x;
 
       case 10:
-        context$1$0.next = 13;
+        n--;
+        context$1$0.next = 20;
         break;
 
-      case 12:
-        return context$1$0.abrupt("break", 16);
-
       case 13:
+        if (!(n === 1)) {
+          context$1$0.next = 19;
+          break;
+        }
+
+        context$1$0.next = 16;
+        return x;
+
+      case 16:
+        return context$1$0.abrupt("break", 23);
+
+      case 19:
+        return context$1$0.abrupt("break", 23);
+
+      case 20:
         _iteratorNormalCompletion = true;
         context$1$0.next = 5;
         break;
 
-      case 16:
-        context$1$0.next = 22;
+      case 23:
+        context$1$0.next = 29;
         break;
 
-      case 18:
-        context$1$0.prev = 18;
+      case 25:
+        context$1$0.prev = 25;
         context$1$0.t10 = context$1$0["catch"](3);
         _didIteratorError = true;
         _iteratorError = context$1$0.t10;
 
-      case 22:
-        context$1$0.prev = 22;
-        context$1$0.prev = 23;
+      case 29:
+        context$1$0.prev = 29;
+        context$1$0.prev = 30;
 
         if (!_iteratorNormalCompletion && _iterator["return"]) {
           _iterator["return"]();
         }
 
-      case 25:
-        context$1$0.prev = 25;
+      case 32:
+        context$1$0.prev = 32;
 
         if (!_didIteratorError) {
-          context$1$0.next = 28;
+          context$1$0.next = 35;
           break;
         }
 
         throw _iteratorError;
 
-      case 28:
-        return context$1$0.finish(25);
+      case 35:
+        return context$1$0.finish(32);
 
-      case 29:
-        return context$1$0.finish(22);
+      case 36:
+        return context$1$0.finish(29);
 
-      case 30:
+      case 37:
       case "end":
         return context$1$0.stop();
     }
-  }, take, this, [[3, 18, 22, 30], [23,, 25, 29]]);
+  }, take, this, [[3, 25, 29, 37], [30,, 32, 36]]);
 });
 var cu = require("auto-curry");
 
 module.exports = cu(take);
+
+// this condition makes sure that we yield only
+// exactly n times and not n + 1 times which
+// would happen if we were using the old if (n--) code
 
 },{"auto-curry":1}],40:[function(require,module,exports){
 "use strict";
