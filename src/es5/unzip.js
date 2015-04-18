@@ -20,6 +20,7 @@ function unzip(a) {
 
           if (2 !== x.length) throw new SyntaxError("unzip expects a tuple to have exactly two elements");
           var curr = res.shift();
+
           curr.push(y);
           res.push(curr);
         }

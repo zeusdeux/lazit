@@ -6,9 +6,10 @@ var cu = require("auto-curry");
 // calling it spanInv which stands for spanInverse
 // since break is a reserved word
 function spanInv(p, a) {
-  var l = [],
-      r = [];
+  var l = [];
+  var r = [];
   var doneTaking = false;
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;

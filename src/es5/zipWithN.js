@@ -1,6 +1,8 @@
 "use strict";
 
-var zipWithN = regeneratorRuntime.mark( // zipWithN :: (a -> b -> .... -> n -> x) -> [a] -> [b] -> .... -> [n] -> [x]
+var zipWithN = regeneratorRuntime.mark( /*eslint no-loop-func:0*/
+
+// zipWithN :: (a -> b -> .... -> n -> x) -> [a] -> [b] -> .... -> [n] -> [x]
 // applies a function to a each element in a zip of n lists and returns new list
 // zipWithN does NOT auto-curry since it's variadic
 function zipWithN(f) {

@@ -18,6 +18,7 @@ function foldr1(f, xs) {
 
   function _foldr1(_f, _acc, _xsIt) {
     var _itObj = _xsIt.next();
+
     if (_itObj.done) {
       return isObject(_acc) ? clone(_acc) : _acc;
     }return _f(_acc, _foldr1(_f, _itObj.value, _xsIt));

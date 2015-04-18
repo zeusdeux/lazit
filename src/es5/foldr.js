@@ -13,6 +13,7 @@ function foldr(f, acc, xs) {
 
   function _foldr(_f, _acc, _xsIt) {
     var _itObj = _xsIt.next();
+
     if (_itObj.done) {
       return _acc;
     }return _f(_itObj.value, _foldr(_f, _acc, _xsIt));

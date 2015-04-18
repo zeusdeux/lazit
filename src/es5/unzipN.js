@@ -6,7 +6,7 @@ var replicate = require("./replicate");
 
 // unzipN :: [(a, b, .... , n)] -> ([a], [b], ...., [n])
 function unzipN(a) {
-  var res;
+  var res = undefined;
 
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
@@ -26,6 +26,7 @@ function unzipN(a) {
           var y = _step2.value;
 
           var curr = res.shift();
+
           curr.push(y);
           res.push(curr);
         }

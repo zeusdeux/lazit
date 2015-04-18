@@ -1,6 +1,8 @@
 "use strict";
 
-var zipN = regeneratorRuntime.mark( // zipN :: [a] -> [b] .... -> [n] -> [[a..n]]
+var zipN = regeneratorRuntime.mark( /*eslint no-loop-func:0*/
+
+// zipN :: [a] -> [b] .... -> [n] -> [[a..n]]
 // zips n lists together
 // zipN does NOT auto-curry since there's no way of
 // knowing it's arity till it's called i.e., it's

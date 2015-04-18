@@ -4,6 +4,7 @@
 // [a] should be finite
 function reverse(a) {
   var res = [];
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;

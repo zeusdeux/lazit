@@ -6,6 +6,7 @@ var cu = require("auto-curry");
 function splitAt(i, a) {
   var l = [],
       r = [];
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;

@@ -14,7 +14,7 @@ function foldl1(f, xs) {
 
   // because pass by reference
   var acc = isObject(itObj.value) ? clone(itObj.value) : itObj.value;
-  var nextVal;
+  var nextVal = undefined;
 
   if (itObj.done) throw new Error("Cannot apply foldl1 to an empty list");
 

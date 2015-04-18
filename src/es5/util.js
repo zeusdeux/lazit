@@ -11,5 +11,6 @@ exports.isObject = function isObject(arg) {
 exports.getIteratorAndObj = function getIteratorAndObj(iterable) {
   var xsIt = iterable[Symbol.iterator]();
   var itObj = xsIt.next();
+
   return { xsIt: xsIt, itObj: itObj };
 };

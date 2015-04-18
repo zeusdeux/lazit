@@ -20,6 +20,7 @@ function unzip3(a) {
 
           if (3 !== x.length) throw new SyntaxError("unzip3 expects a tuple to have exactly three elements");
           var curr = res.shift();
+
           curr.push(y);
           res.push(curr);
         }

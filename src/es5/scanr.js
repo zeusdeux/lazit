@@ -12,10 +12,11 @@ function scanr(f, acc, xs) {
 
   function _scanr(_f, _b, _aIt) {
     var _aObj = _aIt.next();
+    var ys = undefined;
+
     if (_aObj.done) {
       return [_b];
-    }
-    var ys = _scanr(_f, _b, _aIt);
+    }ys = _scanr(_f, _b, _aIt);
     ys.unshift(_f(_aObj.value, isObject(ys[0]) ? clone(ys[0]) : ys[0]));
     return ys;
   }

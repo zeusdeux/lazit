@@ -4376,9 +4376,9 @@ function concat(a, b) {
 
       case 14:
         context$1$0.prev = 14;
-        context$1$0.t0 = context$1$0["catch"](3);
+        context$1$0.t1 = context$1$0["catch"](3);
         _didIteratorError = true;
-        _iteratorError = context$1$0.t0;
+        _iteratorError = context$1$0.t1;
 
       case 18:
         context$1$0.prev = 18;
@@ -4432,9 +4432,9 @@ function concat(a, b) {
 
       case 40:
         context$1$0.prev = 40;
-        context$1$0.t1 = context$1$0["catch"](29);
+        context$1$0.t2 = context$1$0["catch"](29);
         _didIteratorError2 = true;
-        _iteratorError2 = context$1$0.t1;
+        _iteratorError2 = context$1$0.t2;
 
       case 44:
         context$1$0.prev = 44;
@@ -4980,7 +4980,7 @@ function foldl1(f, xs) {
 
   // because pass by reference
   var acc = isObject(itObj.value) ? clone(itObj.value) : itObj.value;
-  var nextVal;
+  var nextVal = undefined;
 
   if (itObj.done) throw new Error("Cannot apply foldl1 to an empty list");
 
@@ -5013,6 +5013,7 @@ function foldr(f, acc, xs) {
 
   function _foldr(_f, _acc, _xsIt) {
     var _itObj = _xsIt.next();
+
     if (_itObj.done) {
       return _acc;
     }return _f(_itObj.value, _foldr(_f, _acc, _xsIt));
@@ -5042,6 +5043,7 @@ function foldr1(f, xs) {
 
   function _foldr1(_f, _acc, _xsIt) {
     var _itObj = _xsIt.next();
+
     if (_itObj.done) {
       return isObject(_acc) ? clone(_acc) : _acc;
     }return _f(_acc, _foldr1(_f, _itObj.value, _xsIt));
@@ -5056,6 +5058,7 @@ module.exports = cu(foldr1);
 // head :: [a] -> a
 function head(a) {
   var first = a[Symbol.iterator]().next();
+
   if (first.done) throw new Error("Cannot get head of empty list");
   return first.value;
 }
@@ -5216,9 +5219,9 @@ function map(f, a) {
 
       case 14:
         context$1$0.prev = 14;
-        context$1$0.t2 = context$1$0["catch"](3);
+        context$1$0.t0 = context$1$0["catch"](3);
         _didIteratorError = true;
-        _iteratorError = context$1$0.t2;
+        _iteratorError = context$1$0.t0;
 
       case 18:
         context$1$0.prev = 18;
@@ -5317,6 +5320,7 @@ var isObject = require("./util").isObject;
 // replicate :: Int -> a -> [a]
 function replicate(n, a) {
   var res = [];
+
   // See the comment in repeat
   while (n--) {
     if (!isObject(a)) res.push(a);else res.push(clone(a));
@@ -5333,6 +5337,7 @@ module.exports = cu(replicate);
 // [a] should be finite
 function reverse(a) {
   var res = [];
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
@@ -5552,10 +5557,11 @@ function scanr(f, acc, xs) {
 
   function _scanr(_f, _b, _aIt) {
     var _aObj = _aIt.next();
+    var ys = undefined;
+
     if (_aObj.done) {
       return [_b];
-    }
-    var ys = _scanr(_f, _b, _aIt);
+    }ys = _scanr(_f, _b, _aIt);
     ys.unshift(_f(_aObj.value, isObject(ys[0]) ? clone(ys[0]) : ys[0]));
     return ys;
   }
@@ -5570,9 +5576,10 @@ var cu = require("auto-curry");
 
 // span :: (a -> Bool) -> [a] -> ([a], [a])
 function span(p, a) {
-  var l = [],
-      r = [];
+  var l = [];
+  var r = [];
   var doneTaking = false;
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
@@ -5615,9 +5622,10 @@ var cu = require("auto-curry");
 // calling it spanInv which stands for spanInverse
 // since break is a reserved word
 function spanInv(p, a) {
-  var l = [],
-      r = [];
+  var l = [];
+  var r = [];
   var doneTaking = false;
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
@@ -5660,6 +5668,7 @@ var cu = require("auto-curry");
 function splitAt(i, a) {
   var l = [],
       r = [];
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
@@ -5948,6 +5957,7 @@ function unzip(a) {
 
           if (2 !== x.length) throw new SyntaxError("unzip expects a tuple to have exactly two elements");
           var curr = res.shift();
+
           curr.push(y);
           res.push(curr);
         }
@@ -6009,6 +6019,7 @@ function unzip3(a) {
 
           if (3 !== x.length) throw new SyntaxError("unzip3 expects a tuple to have exactly three elements");
           var curr = res.shift();
+
           curr.push(y);
           res.push(curr);
         }
@@ -6056,7 +6067,7 @@ var replicate = require("./replicate");
 
 // unzipN :: [(a, b, .... , n)] -> ([a], [b], ...., [n])
 function unzipN(a) {
-  var res;
+  var res = undefined;
 
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
@@ -6076,6 +6087,7 @@ function unzipN(a) {
           var y = _step2.value;
 
           var curr = res.shift();
+
           curr.push(y);
           res.push(curr);
         }
@@ -6128,6 +6140,7 @@ exports.isObject = function isObject(arg) {
 exports.getIteratorAndObj = function getIteratorAndObj(iterable) {
   var xsIt = iterable[Symbol.iterator]();
   var itObj = xsIt.next();
+
   return { xsIt: xsIt, itObj: itObj };
 };
 
@@ -6219,7 +6232,9 @@ module.exports = cu(zip3);
 },{"auto-curry":1}],47:[function(require,module,exports){
 "use strict";
 
-var zipN = regeneratorRuntime.mark( // zipN :: [a] -> [b] .... -> [n] -> [[a..n]]
+var zipN = regeneratorRuntime.mark( /*eslint no-loop-func:0*/
+
+// zipN :: [a] -> [b] .... -> [n] -> [[a..n]]
 // zips n lists together
 // zipN does NOT auto-curry since there's no way of
 // knowing it's arity till it's called i.e., it's
@@ -6357,7 +6372,9 @@ module.exports = cu(zipWith3);
 },{"auto-curry":1}],50:[function(require,module,exports){
 "use strict";
 
-var zipWithN = regeneratorRuntime.mark( // zipWithN :: (a -> b -> .... -> n -> x) -> [a] -> [b] -> .... -> [n] -> [x]
+var zipWithN = regeneratorRuntime.mark( /*eslint no-loop-func:0*/
+
+// zipWithN :: (a -> b -> .... -> n -> x) -> [a] -> [b] -> .... -> [n] -> [x]
 // applies a function to a each element in a zip of n lists and returns new list
 // zipWithN does NOT auto-curry since it's variadic
 function zipWithN(f) {
@@ -6434,7 +6451,7 @@ var foldr1 = require("./esnext/foldr1");
 var scanl = require("./esnext/scanl");
 var scanl1 = require("./esnext/scanl1");
 var scanr = require("./esnext/scanr");
-// var scanr1 = require('./esnext/scanr1');
+// let scanr1 = require('./esnext/scanr1');
 
 // infinite lists
 var iterate = require("./esnext/iterate");

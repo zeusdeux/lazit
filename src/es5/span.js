@@ -4,9 +4,10 @@ var cu = require("auto-curry");
 
 // span :: (a -> Bool) -> [a] -> ([a], [a])
 function span(p, a) {
-  var l = [],
-      r = [];
+  var l = [];
+  var r = [];
   var doneTaking = false;
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
