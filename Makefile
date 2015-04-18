@@ -4,19 +4,19 @@ TEST       = ./test
 BUILD      = ./build
 BIN        = $(NODEMOD)/.bin
 NODEMOD    = ./node_modules
-TEST			 = ./test
+TEST       = ./test
 
 # files
 MAIN       = $(SRC)/index.js
 BROWSER		 = $(SRC)/browser.js
 MAPFILE    = lazit.min.map
 
-all: jshint test $(BUILD)/lazit.min.js
+all: eslint test $(BUILD)/lazit.min.js
 
 force: $(BUILD)/lazit.min.js
 
-jshint:
-	$(BIN)/jshint $(SRC)/*.js
+eslint:
+	$(BIN)/eslint $(SRC)/*.js $(SRC)/esnext/*.js
 
 test:
 # run test
@@ -48,4 +48,4 @@ clean:
 	rm -f $(BUILD)/*
 	rm -f $(SRC)/es5/*
 
-.PHONY: all force jshint test test-watch clean
+.PHONY: all force eslint test test-watch clean
