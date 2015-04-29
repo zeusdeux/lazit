@@ -48,4 +48,7 @@ clean:
 	rm -f $(BUILD)/*
 	rm -f $(SRC)/es5/*
 
-.PHONY: all force eslint test test-watch clean
+watch:
+	fswatch -o src/esnext/ src/index.js src/browser.js | xargs -n1 -I% make
+
+.PHONY: all force eslint test test-watch clean watch
