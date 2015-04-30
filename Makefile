@@ -1,15 +1,15 @@
 # folders
-SRC        = ./src
-TEST       = ./test
-BUILD      = ./build
-BIN        = $(NODEMOD)/.bin
-NODEMOD    = ./node_modules
-TEST       = ./test
+SRC     = ./src
+TEST    = ./test
+BUILD   = ./build
+BIN     = $(NODEMOD)/.bin
+NODEMOD = ./node_modules
+TEST    = ./test
 
 # files
-MAIN       = $(SRC)/index.js
-BROWSER		 = $(SRC)/browser.js
-MAPFILE    = lazit.min.map
+MAIN    = $(SRC)/index.js
+BROWSER = $(SRC)/browser.js
+MAPFILE = lazit.min.map
 
 all: eslint test $(BUILD)/lazit.min.js
 
@@ -27,13 +27,13 @@ test-watch:
 
 $(BUILD)/lazit.min.js: $(BUILD)/lazit.js
 	$(BIN)/uglifyjs $^ \
-  -o $@ \
-  -c -m \
-  --source-map $(BUILD)/$(MAPFILE) \
-  --source-map-root ../../ \
-  --source-map-url ./$(MAPFILE) \
-  --comments \
-  --stats
+	-o $@ \
+	-c -m \
+	--source-map $(BUILD)/$(MAPFILE) \
+	--source-map-root ../../ \
+	--source-map-url ./$(MAPFILE) \
+	--comments \
+	--stats
 
 $(BUILD)/lazit.js: $(MAIN) $(BROWSER) $(SRC)/esnext/*.js $(NODEMOD)/auto-curry/index.js $(NODEMOD)/clone/clone.js
 # generate es5 variants of the source
